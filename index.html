@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kosha — Hoodies, engineered for Indian winters</title>
+<style>
+  :root{
+    --ivory:#F6F2EA;
+    --ivory-2:#EFE9DD;
+    --graphite:#15130F;
+    --graphite-2:#211E19;
+    --oxblood:#7A2430;
+    --oxblood-2:#5E1B25;
+    --stone:#B9AF9D;
+    --gold:#B08D4F;
+    --ink:#1C1B19;
+    --ink-soft:#57534A;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+  @media (max-width:700px){.wrap{padding:0 22px;}}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--oxblood); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(246,242,234,0.72);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border-bottom:1px solid rgba(28,27,25,0.08);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:var(--serif); font-size:22px; letter-spacing:0.04em; font-weight:600;
+  }
+  .nav-links{display:flex; gap:34px; font-size:13px; letter-spacing:0.02em;}
+  .nav-links a{opacity:0.82; transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-right{display:flex; align-items:center; gap:22px; font-size:13px;}
+  .nav-cta{
+    background:var(--ink); color:var(--ivory); padding:8px 18px; border-radius:999px; font-size:12.5px; letter-spacing:0.03em;
+  }
+  .nav-mobile-toggle{display:none;}
+  @media (max-width:860px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:100vh; min-height:680px; width:100%;
+    display:flex; align-items:flex-end;
+    background:var(--graphite);
+    overflow:hidden;
+  }
+  .hero img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center;
+    opacity:0.96;
+  }
+  .hero::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(21,19,15,0.05) 0%, rgba(21,19,15,0.15) 45%, rgba(21,19,15,0.92) 100%);
+  }
+  .hero-content{position:relative; z-index:2; width:100%; padding-bottom:64px;}
+  .eyebrow{
+    color:var(--gold); font-size:12px; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:18px; font-weight:600;
+  }
+  .hero h1{
+    font-family:var(--serif); color:var(--ivory); font-size:clamp(40px,7vw,84px); line-height:1.02; letter-spacing:-0.01em; max-width:900px; font-weight:600;
+  }
+  .hero h1 em{font-style:italic; color:var(--stone);}
+  .hero p.sub{
+    color:rgba(246,242,234,0.78); font-size:clamp(15px,1.7vw,19px); max-width:480px; margin-top:22px; line-height:1.55;
+  }
+  .hero-actions{display:flex; gap:16px; margin-top:34px; align-items:center; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ivory); color:var(--graphite); padding:14px 30px; border-radius:999px; font-size:14.5px; font-weight:600; letter-spacing:0.01em;
+    transition:transform .25s ease, background .25s ease;
+    display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-2px); background:#fff;}
+  .btn-ghost{
+    color:var(--ivory); font-size:14.5px; border-bottom:1px solid rgba(246,242,234,0.4); padding-bottom:3px;
+  }
+  .hero-price{color:rgba(246,242,234,0.6); font-size:13px; margin-top:26px; letter-spacing:0.02em;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:120px 0;}
+  @media (max-width:700px){.section{padding:76px 0;}}
+  .section-head{max-width:640px; margin-bottom:64px;}
+  .section-eyebrow{
+    font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--oxblood); font-weight:700; margin-bottom:16px;
+  }
+  .section-head h2{
+    font-family:var(--serif); font-size:clamp(30px,4vw,48px); line-height:1.1; font-weight:600; letter-spacing:-0.01em;
+  }
+  .section-head p{color:var(--ink-soft); font-size:17px; line-height:1.6; margin-top:18px;}
+
+  /* ---------- COLLECTION STRIP ---------- */
+  .collection{background:var(--ivory);}
+  .strip{
+    display:flex; gap:22px; overflow-x:auto; padding-bottom:16px; scroll-snap-type:x mandatory;
+    -ms-overflow-style:none; scrollbar-width:none;
+  }
+  .strip::-webkit-scrollbar{display:none;}
+  .card{
+    flex:0 0 auto; width:340px; scroll-snap-align:start;
+    background:var(--ivory-2); border-radius:22px; overflow:hidden;
+    border:1px solid rgba(28,27,25,0.06);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 24px 48px -20px rgba(28,27,25,0.25);}
+  .card-img{aspect-ratio:1/1; overflow:hidden; background:var(--stone);}
+  .card-img img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease;}
+  .card:hover .card-img img{transform:scale(1.05);}
+  .card-info{padding:20px 22px 26px;}
+  .card-info .swatch{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:8px; vertical-align:middle;}
+  .card-info h3{font-family:var(--serif); font-size:20px; font-weight:600; margin-bottom:6px;}
+  .card-info .desc{color:var(--ink-soft); font-size:13.5px; margin-bottom:14px;}
+  .card-info .price-row{display:flex; align-items:baseline; justify-content:space-between;}
+  .card-info .price{font-size:16px; font-weight:600;}
+  .card-info .price .strike{color:var(--ink-soft); text-decoration:line-through; font-weight:400; font-size:13px; margin-left:7px;}
+  .card-info .add{font-size:12.5px; color:var(--oxblood); font-weight:700; letter-spacing:0.02em;}
+
+  /* ---------- FABRIC / SPLIT SECTION ---------- */
+  .split{
+    display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:0;
+  }
+  @media (max-width:860px){.split{grid-template-columns:1fr;}}
+  .split-media{aspect-ratio:1/1; overflow:hidden;}
+  .split-media img{width:100%; height:100%; object-fit:cover;}
+  .split-text{padding:60px 80px;}
+  @media (max-width:860px){.split-text{padding:50px 24px;}}
+  .split-text .section-eyebrow{margin-bottom:16px;}
+  .split-text h2{font-family:var(--serif); font-size:clamp(28px,3.6vw,42px); line-height:1.14; font-weight:600; margin-bottom:20px;}
+  .split-text p{color:var(--ink-soft); font-size:16.5px; line-height:1.7; margin-bottom:16px; max-width:460px;}
+  .spec-list{margin-top:28px; display:grid; gap:14px;}
+  .spec-list div{display:flex; justify-content:space-between; max-width:420px; border-bottom:1px solid rgba(28,27,25,0.1); padding-bottom:12px; font-size:14.5px;}
+  .spec-list span:first-child{color:var(--ink-soft);}
+  .spec-list span:last-child{font-weight:600;}
+
+  .dark{background:var(--graphite); color:var(--ivory);}
+  .dark .section-head p, .dark .split-text p{color:rgba(246,242,234,0.68);}
+  .dark .section-eyebrow{color:var(--gold);}
+  .dark .spec-list div{border-bottom-color:rgba(246,242,234,0.16);}
+  .dark .spec-list span:first-child{color:rgba(246,242,234,0.6);}
+
+  /* ---------- PROVENANCE ---------- */
+  .provenance{background:var(--graphite); color:var(--ivory); text-align:center; padding:110px 0;}
+  .provenance .section-eyebrow{color:var(--gold); justify-content:center;}
+  .provenance h2{font-family:var(--serif); font-size:clamp(28px,4vw,46px); max-width:800px; margin:0 auto 50px; line-height:1.25; font-weight:500;}
+  .provenance h2 b{font-weight:600; color:var(--gold);}
+  .route{
+    display:flex; align-items:flex-start; justify-content:center; max-width:900px; margin:0 auto; flex-wrap:wrap; row-gap:36px;
+  }
+  .route .stop{display:flex; align-items:flex-start; gap:0; padding:0 22px;}
+  .route .stop-inner{display:flex; flex-direction:column; align-items:center; gap:10px;}
+  .route .stop .dot{width:10px; height:10px; border-radius:50%; background:var(--gold);}
+  .route .stop .city{font-family:var(--serif); font-size:19px;}
+  .route .stop .role{font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(246,242,234,0.55); white-space:nowrap;}
+  .route .line{width:50px; height:1px; background:rgba(246,242,234,0.28); margin-top:5px; align-self:flex-start; margin-left:22px;}
+  @media (max-width:760px){ .route .line{display:none;} .route{flex-direction:column; align-items:center; gap:28px;} .route .stop{padding:0;} }
+
+  /* ---------- DETAIL GRID ---------- */
+  .details{background:var(--ivory-2);}
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(28,27,25,0.08); border:1px solid rgba(28,27,25,0.08); border-radius:24px; overflow:hidden;}
+  @media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr);}}
+  .detail-cell{background:var(--ivory); padding:44px 30px; }
+  .detail-cell .num{font-family:var(--serif); font-size:13px; color:var(--oxblood); font-weight:700; letter-spacing:0.05em; margin-bottom:22px;}
+  .detail-cell h4{font-family:var(--serif); font-size:19px; font-weight:600; margin-bottom:10px;}
+  .detail-cell p{font-size:14px; color:var(--ink-soft); line-height:1.6;}
+
+  /* ---------- SIZE ---------- */
+  .size-section .wrap{display:grid; grid-template-columns:0.85fr 1.15fr; gap:70px; align-items:start;}
+  @media (max-width:900px){.size-section .wrap{grid-template-columns:1fr;}}
+  table.size-table{width:100%; border-collapse:collapse; font-size:14px;}
+  table.size-table th, table.size-table td{padding:14px 10px; text-align:left; border-bottom:1px solid rgba(28,27,25,0.1);}
+  table.size-table th{font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); font-weight:600;}
+  table.size-table td:first-child, table.size-table th:first-child{font-weight:700;}
+  .fit-note{margin-top:26px; background:var(--ivory-2); border-radius:16px; padding:20px 24px; font-size:14px; color:var(--ink-soft); line-height:1.6;}
+  .fit-note b{color:var(--ink);}
+
+  /* ---------- LIFESTYLE / QUOTE ---------- */
+  .quote-section{position:relative; min-height:640px; display:flex; align-items:flex-end; overflow:hidden;}
+  .quote-section img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+  .quote-section::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(21,19,15,0.82) 0%, rgba(21,19,15,0) 55%);}
+  .quote-content{position:relative; z-index:2; padding:60px 0; color:var(--ivory); max-width:640px;}
+  .quote-content p.quote{font-family:var(--serif); font-size:clamp(22px,3vw,32px); line-height:1.4; font-style:italic; margin-bottom:18px;}
+  .quote-content .attribution{font-size:13px; color:rgba(246,242,234,0.7); letter-spacing:0.03em;}
+
+  /* ---------- TRUST BAR ---------- */
+  .trust{background:var(--ink); color:var(--ivory);}
+  .trust .wrap{display:flex; justify-content:space-between; padding:36px 0; flex-wrap:wrap; gap:24px;}
+  .trust .item{display:flex; align-items:center; gap:12px; font-size:13.5px; flex:1; min-width:200px;}
+  .trust .item .ic{font-size:18px; color:var(--gold);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--graphite); color:rgba(246,242,234,0.7); padding:80px 0 34px;}
+  .footer-top{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:50px; padding-bottom:60px; border-bottom:1px solid rgba(246,242,234,0.12);}
+  @media (max-width:800px){.footer-top{grid-template-columns:1fr 1fr; row-gap:40px;}}
+  .footer-top h5{color:var(--ivory); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:18px;}
+  .footer-top ul{list-style:none; display:grid; gap:11px; font-size:14px;}
+  .footer-top ul a:hover{color:var(--ivory);}
+  .foot-brand .logo{color:var(--ivory); margin-bottom:14px;}
+  .foot-brand p{font-size:14px; line-height:1.6; max-width:280px; margin-bottom:22px;}
+  .newsletter{display:flex; border:1px solid rgba(246,242,234,0.25); border-radius:999px; overflow:hidden; max-width:320px;}
+  .newsletter input{background:none; border:none; padding:12px 16px; color:var(--ivory); font-size:13px; flex:1; outline:none;}
+  .newsletter input::placeholder{color:rgba(246,242,234,0.45);}
+  .newsletter button{background:var(--ivory); color:var(--graphite); border:none; padding:0 20px; font-size:13px; font-weight:700; cursor:pointer;}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:28px; font-size:12.5px; flex-wrap:wrap; gap:12px;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">KOSHA</a>
+    <nav class="nav-links">
+      <a href="#collection">Collection</a>
+      <a href="#fabric">Fabric</a>
+      <a href="#provenance">Story</a>
+      <a href="#sizing">Sizing</a>
+    </nav>
+    <div class="nav-right">
+      <span style="opacity:0.7;">₹ INR</span>
+      <a class="nav-cta" href="#collection">Shop hoodies</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <img src="assets/hero.png" alt="Woman wearing an oversized ivory Kosha hoodie, studio portrait">
+  <div class="hero-content wrap">
+    <div class="eyebrow">The Terry Hoodie — Autumn/Winter Edit</div>
+    <h1>Warmth, <em>reconsidered.</em></h1>
+    <p class="sub">A 420 GSM French terry hoodie, cut oversized and finished by hand — built for Delhi mornings and Bengaluru air-conditioning alike.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#collection">Explore the collection</a>
+      <a class="btn-ghost" href="#fabric">Why it's different →</a>
+    </div>
+    <div class="hero-price">From ₹4,999 · Inclusive of GST · Free shipping over ₹1,999</div>
+  </div>
+</section>
+
+<section class="section collection" id="collection">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">The Collection</div>
+      <h2>Four colours. One silhouette, perfected.</h2>
+      <p>Every Kosha hoodie shares the same pattern — relaxed shoulder, dropped sleeve, cropped-not-cropped length — so the only decision left is colour.</p>
+    </div>
+    <div class="strip">
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/product-oxblood.png" alt="Kosha hoodie in Oxblood"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
+          <div class="desc">Deep, wine-dark red. Our most-loved shade.</div>
+          <div class="price-row"><div class="price">₹5,499</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/product-ivory.png" alt="Kosha hoodie in Ivory Silk"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Silk</h3>
+          <div class="desc">Undyed cotton, brushed to a soft chalk finish.</div>
+          <div class="price-row"><div class="price">₹4,999</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/product-graphite.png" alt="Kosha hoodie in Graphite"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
+          <div class="desc">Near-black, warmed with a hint of grey.</div>
+          <div class="price-row"><div class="price">₹5,499</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/lifestyle.png" alt="Kosha hoodie in Stone worn outdoors"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
+          <div class="desc">A quiet warm grey that pairs with everything.</div>
+          <div class="price-row"><div class="price">₹5,199 <span class="strike">₹5,999</span></div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="split dark" id="fabric">
+  <div class="split-media"><img src="assets/fabric-texture.png" alt="Macro shot of brushed cotton terry fabric"></div>
+  <div class="split-text">
+    <div class="section-eyebrow">The Fabric</div>
+    <h2>420 GSM French terry, brushed on the inside.</h2>
+    <p>Most hoodies sold here are cut for a European winter or an American mall. Kosha's terry is milled heavier where it matters — hood, pouch, cuffs — and brushed lighter across the body, so it breathes through a Mumbai commute and still holds heat on a Manali morning.</p>
+    <div class="spec-list">
+      <div><span>Fabric weight</span><span>420 GSM cotton-poly terry</span></div>
+      <div><span>Weave</span><span>Ring-spun, brushed interior</span></div>
+      <div><span>Hardware</span><span>Matte nickel drawcord tips</span></div>
+      <div><span>Shrinkage</span><span>Pre-shrunk, &lt;2% after wash</span></div>
+      <div><span>Care</span><span>Cold machine wash, no dry clean</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="provenance" id="provenance">
+  <div class="wrap">
+    <div class="section-eyebrow" style="display:flex;">Made in India</div>
+    <h2>Yarn spun in Coimbatore. Knit and dyed in <b>Tirupur</b>. Cut, sewn and finished by hand in <b>Ludhiana</b>.</h2>
+    <div class="route">
+      <div class="stop"><div class="stop-inner"><div class="dot"></div><div class="city">Coimbatore</div><div class="role">Cotton yarn</div></div><div class="line"></div></div>
+      <div class="stop"><div class="stop-inner"><div class="dot"></div><div class="city">Tirupur</div><div class="role">Knit &amp; dye</div></div><div class="line"></div></div>
+      <div class="stop"><div class="stop-inner"><div class="dot"></div><div class="city">Ludhiana</div><div class="role">Cut &amp; sew</div></div><div class="line"></div></div>
+      <div class="stop"><div class="stop-inner"><div class="dot"></div><div class="city">Delhi</div><div class="role">Quality check &amp; dispatch</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section details">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">In The Details</div>
+      <h2>Small decisions, felt every day.</h2>
+    </div>
+    <div class="grid4 reveal">
+      <div class="detail-cell">
+        <div class="num">01</div>
+        <h4>Zipped pocket</h4>
+        <p>A hidden interior zip inside the kangaroo pocket, sized for a phone and a metro card.</p>
+      </div>
+      <div class="detail-cell">
+        <div class="num">02</div>
+        <h4>Tag-free collar</h4>
+        <p>The brand mark is woven into the fabric, not stitched as a tag — nothing to itch or cut off.</p>
+      </div>
+      <div class="detail-cell">
+        <div class="num">03</div>
+        <h4>Double-lined hood</h4>
+        <p>Two layers of terry at the hood keep its shape wash after wash, instead of going limp.</p>
+      </div>
+      <div class="detail-cell">
+        <div class="num">04</div>
+        <h4>Ribbed cuffs</h4>
+        <p>A tighter rib knit at the cuff and hem holds warmth in without pinching the wrist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section size-section" id="sizing">
+  <div class="wrap">
+    <div>
+      <div class="section-eyebrow">Fit &amp; Sizing</div>
+      <h2 style="font-family:var(--serif); font-size:clamp(28px,3.4vw,40px); font-weight:600; line-height:1.15; margin-bottom:18px;">Cut oversized. Fits true to the label.</h2>
+      <p style="color:var(--ink-soft); font-size:16px; line-height:1.65;">Kosha is designed to sit loose through the body and sleeve. If you prefer a closer fit, we recommend sizing down once. All measurements are body measurements in centimetres, taken flat.</p>
+      <div class="fit-note">Between sizes? <b>Choose the smaller size</b> for a cropped, boxy fit, or the larger size for maximum slouch.</div>
+    </div>
+    <div>
+      <table class="size-table">
+        <thead>
+          <tr><th>Size</th><th>Chest (cm)</th><th>Length (cm)</th><th>Sleeve (cm)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>XS</td><td>96</td><td>62</td><td>58</td></tr>
+          <tr><td>S</td><td>101</td><td>64</td><td>59</td></tr>
+          <tr><td>M</td><td>106</td><td>66</td><td>60</td></tr>
+          <tr><td>L</td><td>111</td><td>68</td><td>61</td></tr>
+          <tr><td>XL</td><td>116</td><td>70</td><td>62</td></tr>
+          <tr><td>XXL</td><td>121</td><td>72</td><td>63</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="quote-section">
+  <img src="assets/lifestyle.png" alt="Woman wearing a Kosha hoodie on a rooftop at golden hour">
+  <div class="wrap quote-content">
+    <p class="quote">"I've worn it through a Delhi November and a Goa layover. It's the only hoodie I've owned that doesn't feel like a compromise."</p>
+    <div class="attribution">— Ananya R., Gurugram · verified buyer</div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <div class="item"><span class="ic">↺</span> 15-day free returns</div>
+    <div class="item"><span class="ic">₹</span> COD available pan-India</div>
+    <div class="item"><span class="ic">◎</span> UPI, cards &amp; EMI accepted</div>
+    <div class="item"><span class="ic">✦</span> GST invoice on every order</div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="foot-brand">
+        <div class="logo">KOSHA</div>
+        <p>Premium hoodies, designed and made in India for the way India actually dresses — AC to evening chill, in one layer.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="Your email" aria-label="Email address">
+          <button type="button">Join</button>
+        </div>
+      </div>
+      <div>
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="#collection">All hoodies</a></li>
+          <li><a href="#collection">Oxblood</a></li>
+          <li><a href="#collection">Ivory Silk</a></li>
+          <li><a href="#sizing">Size guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Track your order</a></li>
+          <li><a href="#">Returns &amp; exchanges</a></li>
+          <li><a href="#">Shipping (Pan-India)</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#provenance">Our story</a></li>
+          <li><a href="#fabric">The fabric</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kosha Apparel Pvt. Ltd. All prices in INR, inclusive of GST.</span>
+      <span>Privacy · Terms · Made in India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
