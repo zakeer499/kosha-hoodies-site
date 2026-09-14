@@ -149,8 +149,61 @@
   .card-info .price{font-size:16px; font-weight:600;}
   .card-info .price .strike{color:var(--ink-soft); text-decoration:line-through; font-weight:400; font-size:13px; margin-left:7px;}
   .card-info .add{font-size:12.5px; color:var(--oxblood); font-weight:700; letter-spacing:0.02em;}
-  .razorpay-embed{margin-top:14px;}
-  .razorpay-embed form{display:block; width:100%;}
+  .add-btn{
+    margin-top:14px; width:100%; padding:11px 0; border-radius:999px; border:1px solid var(--ink);
+    background:transparent; color:var(--ink); font-size:13px; font-weight:700; letter-spacing:0.02em;
+    cursor:pointer; transition:background .2s ease, color .2s ease;
+  }
+  .add-btn:hover{background:var(--ink); color:var(--ivory);}
+  .add-btn.just-added{background:var(--oxblood); color:var(--ivory); border-color:var(--oxblood);}
+
+  /* ---------- CART ---------- */
+  .cart-toggle{
+    position:relative; display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+    font-size:13px; color:var(--ink); font-family:var(--sans); padding:6px;
+  }
+  .cart-count{
+    position:absolute; top:-4px; right:-4px; background:var(--oxblood); color:var(--ivory);
+    font-size:10px; font-weight:700; border-radius:50%; width:16px; height:16px;
+    display:flex; align-items:center; justify-content:center; line-height:1;
+  }
+  .cart-overlay{
+    position:fixed; inset:0; background:rgba(21,19,15,0.5); z-index:200; opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .cart-overlay.open{opacity:1; pointer-events:auto;}
+  .cart-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(420px, 100vw); background:var(--ivory); z-index:201;
+    display:flex; flex-direction:column; transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
+    box-shadow:-20px 0 60px rgba(0,0,0,0.2);
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{display:flex; align-items:center; justify-content:space-between; padding:22px 24px; border-bottom:1px solid rgba(28,27,25,0.1);}
+  .cart-head h3{font-family:var(--serif); font-size:20px; font-weight:600;}
+  .cart-close{background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink); line-height:1;}
+  .cart-items{flex:1; overflow-y:auto; padding:10px 24px;}
+  .cart-empty{color:var(--ink-soft); font-size:14px; padding:40px 0; text-align:center;}
+  .cart-item{display:flex; gap:14px; padding:16px 0; border-bottom:1px solid rgba(28,27,25,0.08);}
+  .cart-item img{width:64px; height:64px; object-fit:cover; border-radius:10px; flex-shrink:0;}
+  .cart-item-info{flex:1; min-width:0;}
+  .cart-item-info .name{font-size:13.5px; font-weight:600; margin-bottom:4px;}
+  .cart-item-info .unit-price{font-size:12px; color:var(--ink-soft); margin-bottom:8px;}
+  .qty-stepper{display:flex; align-items:center; gap:10px;}
+  .qty-stepper button{
+    width:24px; height:24px; border-radius:50%; border:1px solid rgba(28,27,25,0.25); background:none;
+    font-size:14px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;
+  }
+  .qty-stepper span{font-size:13px; font-weight:600; min-width:16px; text-align:center;}
+  .cart-item-remove{background:none; border:none; color:var(--ink-soft); font-size:12px; text-decoration:underline; cursor:pointer; align-self:flex-start;}
+  .cart-item-total{font-size:13.5px; font-weight:700; align-self:flex-start; white-space:nowrap;}
+  .cart-foot{padding:20px 24px 26px; border-top:1px solid rgba(28,27,25,0.1);}
+  .cart-subtotal{display:flex; justify-content:space-between; font-size:15px; font-weight:700; margin-bottom:6px;}
+  .cart-note{font-size:12px; color:var(--ink-soft); margin-bottom:16px;}
+  .cart-checkout{
+    width:100%; padding:15px 0; border-radius:999px; border:none; background:var(--ink); color:var(--ivory);
+    font-size:14.5px; font-weight:700; cursor:pointer; transition:background .2s ease;
+  }
+  .cart-checkout:hover{background:var(--oxblood);}
+  .cart-checkout:disabled{opacity:0.5; cursor:not-allowed;}
 
   /* ---------- FABRIC / SPLIT SECTION ---------- */
   .split{
@@ -276,6 +329,9 @@
     </nav>
     <div class="nav-right">
       <span style="opacity:0.7;">₹ INR</span>
+      <button type="button" class="cart-toggle" id="cartToggle" aria-label="Open bag">
+        Bag<span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
       <a class="nav-cta" href="#hoodies">Shop the edit</a>
     </div>
   </div>
@@ -326,7 +382,7 @@
           <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
           <div class="desc">Deep, wine-dark red. Our most-loved shade.</div>
           <div class="price-row"><div class="price">₹5,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc2xEitdzw0VVA" async></script></form></div>
+          <button type="button" class="add-btn" data-id="hoodie-oxblood" data-name="Hoodie — Oxblood" data-price="5499" data-img="assets/product-oxblood.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -335,7 +391,7 @@
           <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Silk</h3>
           <div class="desc">Undyed cotton, brushed to a soft chalk finish.</div>
           <div class="price-row"><div class="price">₹4,999</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc30OCLNZkqNBa" async></script></form></div>
+          <button type="button" class="add-btn" data-id="hoodie-ivory-silk" data-name="Hoodie — Ivory Silk" data-price="4999" data-img="assets/product-ivory.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -344,7 +400,7 @@
           <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
           <div class="desc">Near-black, warmed with a hint of grey.</div>
           <div class="price-row"><div class="price">₹5,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc31Nrh1cKeGtP" async></script></form></div>
+          <button type="button" class="add-btn" data-id="hoodie-graphite" data-name="Hoodie — Graphite" data-price="5499" data-img="assets/product-graphite.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -353,7 +409,7 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
           <div class="desc">A quiet warm grey that pairs with everything.</div>
           <div class="price-row"><div class="price">₹5,199 <span class="strike">₹5,999</span></div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3263RdMNwc4u" async></script></form></div>
+          <button type="button" class="add-btn" data-id="hoodie-stone" data-name="Hoodie — Stone" data-price="5199" data-img="assets/lifestyle.png">+ Add</button>
         </div>
       </div>
     </div>
@@ -374,7 +430,7 @@
           <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory</h3>
           <div class="desc">Undyed combed cotton, boxy drop-shoulder fit.</div>
           <div class="price-row"><div class="price">₹1,799</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc32qd1vxM8Z0i" async></script></form></div>
+          <button type="button" class="add-btn" data-id="t-shirt-ivory" data-name="T-Shirt — Ivory" data-price="1799" data-img="assets/tshirt-ivory.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -383,7 +439,7 @@
           <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
           <div class="desc">Near-black, garment-washed for softness.</div>
           <div class="price-row"><div class="price">₹1,799</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc33XueLZUPPuQ" async></script></form></div>
+          <button type="button" class="add-btn" data-id="t-shirt-graphite" data-name="T-Shirt — Graphite" data-price="1799" data-img="assets/tshirt-graphite.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -392,7 +448,7 @@
           <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
           <div class="desc">Our signature red, in everyday cotton.</div>
           <div class="price-row"><div class="price">₹1,899</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc34XYRKrub5CK" async></script></form></div>
+          <button type="button" class="add-btn" data-id="t-shirt-oxblood" data-name="T-Shirt — Oxblood" data-price="1899" data-img="assets/tshirt-oxblood.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -401,7 +457,7 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
           <div class="desc">A quiet warm grey for everyday layering.</div>
           <div class="price-row"><div class="price">₹1,799</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc35fZoN2znNdT" async></script></form></div>
+          <button type="button" class="add-btn" data-id="t-shirt-stone" data-name="T-Shirt — Stone" data-price="1799" data-img="assets/tshirt-stone.png">+ Add</button>
         </div>
       </div>
     </div>
@@ -422,7 +478,7 @@
           <h3><span class="swatch" style="background:#15130F;"></span>Graphite Wide-Leg</h3>
           <div class="desc">Structured cotton twill, side pockets, tab waist.</div>
           <div class="price-row"><div class="price">₹3,299</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc36NZg2T2GqUH" async></script></form></div>
+          <button type="button" class="add-btn" data-id="pants-graphite-wide-leg" data-name="Pants — Graphite Wide-Leg" data-price="3299" data-img="assets/pants-graphite.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -431,7 +487,7 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone Jogger</h3>
           <div class="desc">Brushed fleece, tapered leg, zip ankle cuff.</div>
           <div class="price-row"><div class="price">₹2,999</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc374Qz0Tkm3Ch" async></script></form></div>
+          <button type="button" class="add-btn" data-id="pants-stone-jogger" data-name="Pants — Stone Jogger" data-price="2999" data-img="assets/pants-stone.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -440,7 +496,7 @@
           <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Wide-Leg</h3>
           <div class="desc">Undyed cotton twill, side pockets, tab waist.</div>
           <div class="price-row"><div class="price">₹3,299</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc37kpHTIAbgxQ" async></script></form></div>
+          <button type="button" class="add-btn" data-id="pants-ivory-wide-leg" data-name="Pants — Ivory Wide-Leg" data-price="3299" data-img="assets/pants-ivory.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -449,7 +505,7 @@
           <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood Jogger</h3>
           <div class="desc">Brushed fleece, tapered leg, zip ankle cuff.</div>
           <div class="price-row"><div class="price">₹2,999</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc38TQrWFLrGS6" async></script></form></div>
+          <button type="button" class="add-btn" data-id="pants-oxblood-jogger" data-name="Pants — Oxblood Jogger" data-price="2999" data-img="assets/pants-oxblood.png">+ Add</button>
         </div>
       </div>
     </div>
@@ -470,7 +526,7 @@
           <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
           <div class="desc">Brushed terry, drawcord waist, side pockets.</div>
           <div class="price-row"><div class="price">₹2,199</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc39CU4UvGxtgD" async></script></form></div>
+          <button type="button" class="add-btn" data-id="shorts-oxblood" data-name="Shorts — Oxblood" data-price="2199" data-img="assets/shorts-oxblood.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -479,7 +535,7 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
           <div class="desc">A warm neutral grey, pairs with every tee.</div>
           <div class="price-row"><div class="price">₹2,199</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc39zEt5Pf2nyb" async></script></form></div>
+          <button type="button" class="add-btn" data-id="shorts-stone" data-name="Shorts — Stone" data-price="2199" data-img="assets/shorts-stone.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -488,7 +544,7 @@
           <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
           <div class="desc">Near-black terry, our most versatile short.</div>
           <div class="price-row"><div class="price">₹2,199</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3Ah2d21NCZeF" async></script></form></div>
+          <button type="button" class="add-btn" data-id="shorts-graphite" data-name="Shorts — Graphite" data-price="2199" data-img="assets/shorts-graphite.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -497,7 +553,7 @@
           <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory</h3>
           <div class="desc">Undyed brushed terry, drawcord waist.</div>
           <div class="price-row"><div class="price">₹2,199</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3BaylcnAt2JR" async></script></form></div>
+          <button type="button" class="add-btn" data-id="shorts-ivory" data-name="Shorts — Ivory" data-price="2199" data-img="assets/shorts-ivory.png">+ Add</button>
         </div>
       </div>
     </div>
@@ -518,7 +574,7 @@
           <h3><span class="swatch" style="background:#D8B896;"></span>Nude Set</h3>
           <div class="desc">Camisole + brief, seamless cotton-modal.</div>
           <div class="price-row"><div class="price">₹1,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3CLcV3U32mxf" async></script></form></div>
+          <button type="button" class="add-btn" data-id="inners-nude-set" data-name="Inners — Nude Set" data-price="1499" data-img="assets/inners-nude.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -527,7 +583,7 @@
           <h3><span class="swatch" style="background:#15130F;"></span>Black Set</h3>
           <div class="desc">Camisole + brief, seamless cotton-modal.</div>
           <div class="price-row"><div class="price">₹1,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3E8nQHxcDKVK" async></script></form></div>
+          <button type="button" class="add-btn" data-id="inners-black-set" data-name="Inners — Black Set" data-price="1499" data-img="assets/inners-black.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -536,7 +592,7 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone Set</h3>
           <div class="desc">Camisole + brief, seamless cotton-modal.</div>
           <div class="price-row"><div class="price">₹1,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3FM5wNXVgXeY" async></script></form></div>
+          <button type="button" class="add-btn" data-id="inners-stone-set" data-name="Inners — Stone Set" data-price="1499" data-img="assets/inners-stone.png">+ Add</button>
         </div>
       </div>
       <div class="card reveal">
@@ -545,7 +601,7 @@
           <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Set</h3>
           <div class="desc">Camisole + brief, seamless cotton-modal.</div>
           <div class="price-row"><div class="price">₹1,499</div></div>
-          <div class="razorpay-embed"><form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tc3GxUbXu0T9cy" async></script></form></div>
+          <button type="button" class="add-btn" data-id="inners-ivory-set" data-name="Inners — Ivory Set" data-price="1499" data-img="assets/inners-ivory.png">+ Add</button>
         </div>
       </div>
     </div>
@@ -703,12 +759,158 @@
   </div>
 </footer>
 
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping bag">
+  <div class="cart-head">
+    <h3>Your Bag</h3>
+    <button type="button" class="cart-close" id="cartClose" aria-label="Close bag">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your bag is empty. Add something you'll actually wear.</div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-note">Inclusive of GST. Shipping free over ₹1,999.</div>
+    <button type="button" class="cart-checkout" id="cartCheckout" disabled>Checkout</button>
+  </div>
+</aside>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {threshold:0.15});
   els.forEach(el=>io.observe(el));
+
+  // ---------- CART ----------
+  const RAZORPAY_KEY_ID = "rzp_test_3jGFYxmWHR6vWZ";
+  const CART_KEY = "kosha_cart_v1";
+  const fmt = (n) => "₹" + n.toLocaleString("en-IN");
+
+  function loadCart(){
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch(e){ return []; }
+  }
+  function saveCart(cart){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch(e){} }
+
+  let cart = loadCart();
+
+  function cartTotal(){ return cart.reduce((sum, item) => sum + item.price * item.qty, 0); }
+  function cartCount(){ return cart.reduce((sum, item) => sum + item.qty, 0); }
+
+  function renderCart(){
+    const itemsEl = document.getElementById('cartItems');
+    const countEl = document.getElementById('cartCount');
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const checkoutBtn = document.getElementById('cartCheckout');
+
+    const count = cartCount();
+    countEl.textContent = count;
+    countEl.style.display = count > 0 ? 'flex' : 'none';
+
+    if(cart.length === 0){
+      itemsEl.innerHTML = '<div class="cart-empty">Your bag is empty. Add something you\'ll actually wear.</div>';
+      checkoutBtn.disabled = true;
+    } else {
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item" data-id="${item.id}">
+          <img src="${item.img}" alt="${item.name}">
+          <div class="cart-item-info">
+            <div class="name">${item.name}</div>
+            <div class="unit-price">${fmt(item.price)} each</div>
+            <div class="qty-stepper">
+              <button type="button" data-action="dec">&minus;</button>
+              <span>${item.qty}</span>
+              <button type="button" data-action="inc">+</button>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between; height:64px;">
+            <div class="cart-item-total">${fmt(item.price * item.qty)}</div>
+            <button type="button" class="cart-item-remove" data-action="remove">Remove</button>
+          </div>
+        </div>
+      `).join('');
+      checkoutBtn.disabled = false;
+    }
+    subtotalEl.textContent = fmt(cartTotal());
+    saveCart(cart);
+  }
+
+  function addToCart(product){
+    const existing = cart.find(i => i.id === product.id);
+    if(existing){ existing.qty += 1; }
+    else { cart.push({ ...product, qty: 1 }); }
+    renderCart();
+    openCart();
+  }
+
+  function openCart(){
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('open');
+  }
+  function closeCart(){
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
+  }
+
+  document.getElementById('cartToggle').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      addToCart({
+        id: btn.dataset.id,
+        name: btn.dataset.name,
+        price: parseInt(btn.dataset.price, 10),
+        img: btn.dataset.img
+      });
+      btn.classList.add('just-added');
+      const original = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(() => { btn.classList.remove('just-added'); btn.textContent = original; }, 1200);
+    });
+  });
+
+  document.getElementById('cartItems').addEventListener('click', (e) => {
+    const action = e.target.dataset.action;
+    if(!action) return;
+    const itemEl = e.target.closest('.cart-item');
+    const id = itemEl.dataset.id;
+    const item = cart.find(i => i.id === id);
+    if(!item) return;
+    if(action === 'inc'){ item.qty += 1; }
+    if(action === 'dec'){ item.qty -= 1; if(item.qty <= 0){ cart = cart.filter(i => i.id !== id); } }
+    if(action === 'remove'){ cart = cart.filter(i => i.id !== id); }
+    renderCart();
+  });
+
+  document.getElementById('cartCheckout').addEventListener('click', () => {
+    if(cart.length === 0) return;
+    const amount = cartTotal() * 100; // paise
+    const description = cart.map(i => `${i.name} x${i.qty}`).join(', ');
+    const rzp = new Razorpay({
+      key: RAZORPAY_KEY_ID,
+      amount: amount,
+      currency: "INR",
+      name: "Kosha",
+      description: description.length > 120 ? description.slice(0, 117) + '...' : description,
+      theme: { color: "#7A2430" },
+      handler: function(response){
+        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+        cart = [];
+        renderCart();
+        closeCart();
+      },
+      modal: {
+        ondismiss: function(){}
+      }
+    });
+    rzp.open();
+  });
+
+  renderCart();
 </script>
 
 </body>
