@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kosha — Hoodies, engineered for Indian winters</title>
+<title>Kosha — Womenswear, only. Premium basics for India</title>
 <style>
   :root{
     --ivory:#F6F2EA;
@@ -67,6 +67,12 @@
   @media (max-width:860px){
     .nav-links{display:none;}
   }
+  .announce{
+    background:var(--graphite); color:var(--ivory);
+    text-align:center; font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase;
+    padding:9px 0; font-weight:600;
+  }
+  .announce b{color:var(--gold); font-weight:700;}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -233,22 +239,42 @@
 
   .reveal{opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease;}
   .reveal.in{opacity:1; transform:translateY(0);}
+  [id]{scroll-margin-top:104px;}
+
+  /* ---------- CATEGORY BAND ---------- */
+  .category-band{background:var(--ivory);}
+  .cat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px;}
+  @media (max-width:860px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+  .cat-chip{
+    display:block; border-radius:16px; overflow:hidden; position:relative; aspect-ratio:4/5;
+    border:1px solid rgba(28,27,25,0.08);
+  }
+  .cat-chip img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .cat-chip:hover img{transform:scale(1.06);}
+  .cat-chip .cat-label{
+    position:absolute; left:0; right:0; bottom:0; padding:16px 16px 14px;
+    background:linear-gradient(0deg, rgba(21,19,15,0.75), rgba(21,19,15,0));
+    color:var(--ivory); font-family:var(--serif); font-size:16px; font-weight:600;
+  }
 </style>
 </head>
 <body>
 
 <header class="nav">
+  <div class="announce">Designed <b>only</b> for women — no menswear, no unisex sizing, ever</div>
   <div class="wrap nav-inner">
     <a class="logo" href="#top">KOSHA</a>
     <nav class="nav-links">
-      <a href="#collection">Collection</a>
-      <a href="#fabric">Fabric</a>
-      <a href="#provenance">Story</a>
+      <a href="#hoodies">Hoodies</a>
+      <a href="#tshirts">T-Shirts</a>
+      <a href="#pants">Pants</a>
+      <a href="#shorts">Shorts</a>
+      <a href="#inners">Inners</a>
       <a href="#sizing">Sizing</a>
     </nav>
     <div class="nav-right">
       <span style="opacity:0.7;">₹ INR</span>
-      <a class="nav-cta" href="#collection">Shop hoodies</a>
+      <a class="nav-cta" href="#hoodies">Shop the edit</a>
     </div>
   </div>
 </header>
@@ -256,21 +282,38 @@
 <section class="hero" id="top">
   <img src="assets/hero.png" alt="Woman wearing an oversized ivory Kosha hoodie, studio portrait">
   <div class="hero-content wrap">
-    <div class="eyebrow">The Terry Hoodie — Autumn/Winter Edit</div>
+    <div class="eyebrow">A Women-Only Wardrobe Label</div>
     <h1>Warmth, <em>reconsidered.</em></h1>
-    <p class="sub">A 420 GSM French terry hoodie, cut oversized and finished by hand — built for Delhi mornings and Bengaluru air-conditioning alike.</p>
+    <p class="sub">Hoodies, tees, pants, shorts and inners — pattern-drafted only for a woman's fit, in fabric built for Delhi mornings and Bengaluru air-conditioning alike.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="#collection">Explore the collection</a>
+      <a class="btn-primary" href="#hoodies">Shop the full wardrobe</a>
       <a class="btn-ghost" href="#fabric">Why it's different →</a>
     </div>
-    <div class="hero-price">From ₹4,999 · Inclusive of GST · Free shipping over ₹1,999</div>
+    <div class="hero-price">From ₹1,499 · Inclusive of GST · Free shipping over ₹1,999</div>
   </div>
 </section>
 
-<section class="section collection" id="collection">
+<section class="section category-band">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="section-eyebrow">The Collection</div>
+      <div class="section-eyebrow">Shop By Category</div>
+      <h2>One wardrobe. Built only for women.</h2>
+      <p>No "unisex" sizing borrowed from a men's block. Every Kosha piece — from hoodies to inners — is pattern-drafted on a women's fit from the first sketch.</p>
+    </div>
+    <div class="cat-grid reveal">
+      <a class="cat-chip" href="#hoodies"><img src="assets/product-oxblood.png" alt="Hoodies"><span class="cat-label">Hoodies</span></a>
+      <a class="cat-chip" href="#tshirts"><img src="assets/tshirt-ivory.png" alt="T-Shirts"><span class="cat-label">T-Shirts</span></a>
+      <a class="cat-chip" href="#pants"><img src="assets/pants-graphite.png" alt="Pants"><span class="cat-label">Pants</span></a>
+      <a class="cat-chip" href="#shorts"><img src="assets/shorts-oxblood.png" alt="Shorts"><span class="cat-label">Shorts</span></a>
+      <a class="cat-chip" href="#inners"><img src="assets/inners-nude.png" alt="Inners"><span class="cat-label">Inners</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section collection" id="hoodies">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">01 · Hoodies</div>
       <h2>Four colours. One silhouette, perfected.</h2>
       <p>Every Kosha hoodie shares the same pattern — relaxed shoulder, dropped sleeve, cropped-not-cropped length — so the only decision left is colour.</p>
     </div>
@@ -305,6 +348,126 @@
           <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
           <div class="desc">A quiet warm grey that pairs with everything.</div>
           <div class="price-row"><div class="price">₹5,199 <span class="strike">₹5,999</span></div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section collection" id="tshirts" style="background:var(--ivory-2);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">02 · T-Shirts</div>
+      <h2>The everyday tee, done properly.</h2>
+      <p>190 GSM combed cotton, a boxy drop-shoulder cut, and a neckline that keeps its shape after fifty washes — not fifteen.</p>
+    </div>
+    <div class="strip">
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/tshirt-ivory.png" alt="Kosha t-shirt in Ivory"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory</h3>
+          <div class="desc">Undyed combed cotton, boxy drop-shoulder fit.</div>
+          <div class="price-row"><div class="price">₹1,799</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/tshirt-graphite.png" alt="Kosha t-shirt in Graphite"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
+          <div class="desc">Near-black, garment-washed for softness.</div>
+          <div class="price-row"><div class="price">₹1,799</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/product-oxblood.png" alt="Kosha t-shirt in Oxblood"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
+          <div class="desc">Our signature red, in everyday cotton.</div>
+          <div class="price-row"><div class="price">₹1,899</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section collection" id="pants">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">03 · Pants</div>
+      <h2>Trousers that sit right, from desk to flight.</h2>
+      <p>A relaxed, wide-leg block with a real waistband — cut generous through the hip and tapered enough at the ankle to wear with heels or sneakers.</p>
+    </div>
+    <div class="strip">
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/pants-graphite.png" alt="Kosha wide-leg pants in Graphite"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#15130F;"></span>Graphite Wide-Leg</h3>
+          <div class="desc">Structured cotton twill, side pockets, tab waist.</div>
+          <div class="price-row"><div class="price">₹3,299</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/pants-stone.png" alt="Kosha joggers in Stone"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone Jogger</h3>
+          <div class="desc">Brushed fleece, tapered leg, zip ankle cuff.</div>
+          <div class="price-row"><div class="price">₹2,999</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section collection" id="shorts" style="background:var(--ivory-2);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">04 · Shorts</div>
+      <h2>Built for warmer states, not an afterthought.</h2>
+      <p>The same 420 GSM terry as our hoodies, cut into a relaxed short with a 5" inseam and real side pockets — made with Chennai and Hyderabad summers in mind.</p>
+    </div>
+    <div class="strip">
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/shorts-oxblood.png" alt="Kosha shorts in Oxblood"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
+          <div class="desc">Brushed terry, drawcord waist, side pockets.</div>
+          <div class="price-row"><div class="price">₹2,199</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/shorts-stone.png" alt="Kosha shorts in Stone"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
+          <div class="desc">A warm neutral grey, pairs with every tee.</div>
+          <div class="price-row"><div class="price">₹2,199</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section collection" id="inners">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">05 · Inners</div>
+      <h2>Seamless basics, engineered to disappear.</h2>
+      <p>Tag-free, seam-free cotton-modal innerwear built to sit invisibly under everything else in this wardrobe — not an afterthought category, a real one.</p>
+    </div>
+    <div class="strip">
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/inners-nude.png" alt="Kosha seamless innerwear set in Nude"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#D8B896;"></span>Nude Set</h3>
+          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
+          <div class="price-row"><div class="price">₹1,499</div><div class="add">Add to bag</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img"><img src="assets/inners-black.png" alt="Kosha seamless innerwear set in Black"></div>
+        <div class="card-info">
+          <h3><span class="swatch" style="background:#15130F;"></span>Black Set</h3>
+          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
+          <div class="price-row"><div class="price">₹1,499</div><div class="add">Add to bag</div></div>
         </div>
       </div>
     </div>
@@ -419,7 +582,7 @@
     <div class="footer-top">
       <div class="foot-brand">
         <div class="logo">KOSHA</div>
-        <p>Premium hoodies, designed and made in India for the way India actually dresses — AC to evening chill, in one layer.</p>
+        <p>A women-only wardrobe label, designed and made in India for the way India actually dresses — AC to evening chill, in one layer.</p>
         <div class="newsletter">
           <input type="email" placeholder="Your email" aria-label="Email address">
           <button type="button">Join</button>
@@ -428,9 +591,11 @@
       <div>
         <h5>Shop</h5>
         <ul>
-          <li><a href="#collection">All hoodies</a></li>
-          <li><a href="#collection">Oxblood</a></li>
-          <li><a href="#collection">Ivory Silk</a></li>
+          <li><a href="#hoodies">Hoodies</a></li>
+          <li><a href="#tshirts">T-Shirts</a></li>
+          <li><a href="#pants">Pants</a></li>
+          <li><a href="#shorts">Shorts</a></li>
+          <li><a href="#inners">Inners</a></li>
           <li><a href="#sizing">Size guide</a></li>
         </ul>
       </div>
