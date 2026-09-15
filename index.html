@@ -74,6 +74,108 @@
   }
   .announce b{color:var(--gold); font-weight:700;}
 
+  /* ---------- CATEGORY BAR + MEGA MENU ---------- */
+  .category-bar{
+    border-top:1px solid rgba(28,27,25,0.07);
+    background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+  }
+  .category-bar-inner{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:10px 0; perspective:1200px;
+  }
+  .cat-pill{
+    display:flex; align-items:center; gap:10px; padding:7px 18px 7px 8px; border-radius:999px;
+    background:transparent; border:1px solid transparent; cursor:pointer;
+    font-family:var(--sans); font-size:13.5px; font-weight:600; color:var(--ink);
+    transition:background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+    transform-style:preserve-3d;
+  }
+  .cat-pill-ic{
+    width:34px; height:34px; border-radius:50%; overflow:hidden; flex-shrink:0;
+    box-shadow:0 2px 6px rgba(28,27,25,0.18), inset 0 0 0 1px rgba(255,255,255,0.5);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .cat-pill-ic img{width:100%; height:100%; object-fit:cover; display:block;}
+  .cat-pill:hover, .cat-pill.active{
+    background:var(--ivory); border-color:rgba(28,27,25,0.1);
+    box-shadow:0 10px 24px -12px rgba(28,27,25,0.35);
+    transform:translateY(-2px);
+  }
+  .cat-pill:hover .cat-pill-ic, .cat-pill.active .cat-pill-ic{
+    transform:scale(1.08) translateZ(6px);
+    box-shadow:0 6px 16px rgba(28,27,25,0.28), inset 0 0 0 1px rgba(255,255,255,0.6);
+  }
+  .cat-pill .chev{font-size:9px; margin-left:-2px; opacity:0.5; transition:transform .25s ease;}
+  .cat-pill.active .chev{transform:rotate(180deg);}
+
+  .mega-overlay{
+    position:fixed; inset:0; top:0; background:rgba(21,19,15,0.35); z-index:98;
+    opacity:0; pointer-events:none; transition:opacity .35s ease;
+    backdrop-filter:blur(2px);
+  }
+  .mega-overlay.open{opacity:1; pointer-events:auto;}
+
+  .mega-panel{
+    position:fixed; left:0; right:0; top:var(--header-h, 138px); z-index:99;
+    background:var(--ivory);
+    box-shadow:0 40px 80px -20px rgba(21,19,15,0.35), 0 2px 0 rgba(28,27,25,0.06);
+    border-bottom:1px solid rgba(28,27,25,0.08);
+    opacity:0; visibility:hidden; transform:translateY(-14px) scaleY(0.98); transform-origin:top center;
+    transition:opacity .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear .35s;
+  }
+  .mega-panel.open{
+    opacity:1; visibility:visible; transform:translateY(0) scaleY(1);
+    transition:opacity .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear 0s;
+  }
+  .mega-panel-inner{
+    display:grid; grid-template-columns:0.9fr 1.3fr; gap:56px; padding:44px 0 52px; align-items:center;
+  }
+  .mega-visual{
+    position:relative; aspect-ratio:5/4; border-radius:20px; overflow:hidden; perspective:1000px;
+    box-shadow:0 30px 60px -24px rgba(28,27,25,0.4);
+  }
+  .mega-visual img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .15s ease-out;
+    transform:scale(1.02);
+    will-change:transform;
+  }
+  .mega-visual .sheen{
+    position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s ease;
+    background:radial-gradient(circle 220px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.35), transparent 60%);
+    mix-blend-mode:overlay;
+  }
+  .mega-visual:hover .sheen{opacity:1;}
+  .mega-eyebrow{font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--oxblood); font-weight:700; margin-bottom:14px;}
+  .mega-content h3{font-family:var(--serif); font-size:32px; font-weight:600; margin-bottom:14px; letter-spacing:-0.01em;}
+  .mega-content > p{color:var(--ink-soft); font-size:15px; line-height:1.6; max-width:420px; margin-bottom:26px;}
+  .mega-swatches{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:30px; max-width:440px;}
+  .mega-swatch-item{
+    display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:12px;
+    background:var(--ivory-2); font-size:13px; transition:transform .2s ease, box-shadow .2s ease;
+    cursor:pointer; border:1px solid transparent;
+  }
+  .mega-swatch-item:hover{transform:translateY(-2px) translateZ(4px); box-shadow:0 8px 18px -10px rgba(28,27,25,0.3); border-color:rgba(28,27,25,0.08);}
+  .mega-swatch-item .dot{width:14px; height:14px; border-radius:50%; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08);}
+  .mega-swatch-item .nm{font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .mega-swatch-item .pr{color:var(--ink-soft); font-size:12px;}
+  .mega-cta{
+    display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--ivory);
+    padding:13px 26px; border-radius:999px; font-size:13.5px; font-weight:700;
+    transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
+    box-shadow:0 14px 30px -14px rgba(28,27,25,0.5);
+  }
+  .mega-cta:hover{background:var(--oxblood); transform:translateY(-2px); box-shadow:0 18px 34px -12px rgba(122,36,48,0.55);}
+  @media (max-width:900px){
+    .mega-panel-inner{grid-template-columns:1fr; gap:24px; padding:28px 0 34px;}
+    .mega-visual{aspect-ratio:16/9;}
+  }
+  @media (max-width:860px){
+    .category-bar-inner{justify-content:flex-start; overflow-x:auto; padding:10px 20px; gap:6px; -ms-overflow-style:none; scrollbar-width:none;}
+    .category-bar-inner::-webkit-scrollbar{display:none;}
+    .cat-pill{flex-shrink:0;}
+  }
+
   /* ---------- HERO ---------- */
   .hero{
     position:relative; height:100vh; min-height:680px; width:100%;
@@ -315,16 +417,12 @@
 </head>
 <body>
 
-<header class="nav">
+<header class="nav" id="siteHeader">
   <div class="announce">Designed <b>only</b> for women — no menswear, no unisex sizing, ever</div>
   <div class="wrap nav-inner">
     <a class="logo" href="#top">KOSHA</a>
     <nav class="nav-links">
-      <a href="#hoodies">Hoodies</a>
-      <a href="#tshirts">T-Shirts</a>
-      <a href="#pants">Pants</a>
-      <a href="#shorts">Shorts</a>
-      <a href="#inners">Inners</a>
+      <a href="#provenance">Our Story</a>
       <a href="#sizing">Sizing</a>
     </nav>
     <div class="nav-right">
@@ -335,7 +433,47 @@
       <a class="nav-cta" href="#hoodies">Shop the edit</a>
     </div>
   </div>
+  <nav class="category-bar" id="categoryBar">
+    <div class="wrap category-bar-inner">
+      <button type="button" class="cat-pill" data-cat="hoodies">
+        <span class="cat-pill-ic"><img src="assets/product-oxblood.png" alt="" loading="lazy"></span>
+        Hoodies<span class="chev">▾</span>
+      </button>
+      <button type="button" class="cat-pill" data-cat="tshirts">
+        <span class="cat-pill-ic"><img src="assets/tshirt-ivory.png" alt="" loading="lazy"></span>
+        T-Shirts<span class="chev">▾</span>
+      </button>
+      <button type="button" class="cat-pill" data-cat="pants">
+        <span class="cat-pill-ic"><img src="assets/pants-graphite.png" alt="" loading="lazy"></span>
+        Pants<span class="chev">▾</span>
+      </button>
+      <button type="button" class="cat-pill" data-cat="shorts">
+        <span class="cat-pill-ic"><img src="assets/shorts-oxblood.png" alt="" loading="lazy"></span>
+        Shorts<span class="chev">▾</span>
+      </button>
+      <button type="button" class="cat-pill" data-cat="inners">
+        <span class="cat-pill-ic"><img src="assets/inners-nude.png" alt="" loading="lazy"></span>
+        Inners<span class="chev">▾</span>
+      </button>
+    </div>
+  </nav>
 </header>
+<div class="mega-overlay" id="megaOverlay"></div>
+<div class="mega-panel" id="megaPanel">
+  <div class="wrap mega-panel-inner">
+    <div class="mega-visual" id="megaVisual">
+      <img id="megaImage" src="assets/lifestyle.png" alt="">
+      <div class="sheen"></div>
+    </div>
+    <div class="mega-content">
+      <div class="mega-eyebrow" id="megaEyebrow">01 · Hoodies</div>
+      <h3 id="megaTitle">The Terry Hoodie</h3>
+      <p id="megaDesc">420 GSM French terry, cut oversized for the cropped-not-cropped length we're known for.</p>
+      <div class="mega-swatches" id="megaSwatches"></div>
+      <a href="#hoodies" class="mega-cta" id="megaCta">Shop All Hoodies →</a>
+    </div>
+  </div>
+</div>
 
 <section class="hero" id="top">
   <img src="assets/hero.png" alt="Woman wearing an oversized ivory Kosha hoodie, studio portrait">
@@ -911,6 +1049,203 @@
   });
 
   renderCart();
+
+  /* ---------- CATEGORY MEGA MENU ---------- */
+  const CATEGORY_DATA = {
+    hoodies: {
+      eyebrow: "01 · Hoodies",
+      title: "The Terry Hoodie",
+      desc: "420 GSM French terry, cut oversized for the cropped-not-cropped length we're known for.",
+      image: "assets/lifestyle.png",
+      href: "#hoodies",
+      ctaLabel: "Shop All Hoodies →",
+      swatches: [
+        {name:"Oxblood", price:"₹5,499", color:"#7A2430"},
+        {name:"Ivory Silk", price:"₹4,999", color:"#F6F2EA"},
+        {name:"Graphite", price:"₹5,499", color:"#15130F"},
+        {name:"Stone", price:"₹5,199", color:"#B9AF9D"}
+      ]
+    },
+    tshirts: {
+      eyebrow: "02 · T-Shirts",
+      title: "The Everyday Tee",
+      desc: "190 GSM combed cotton in a boxy, easy fit that layers under anything.",
+      image: "assets/tshirt-graphite.png",
+      href: "#tshirts",
+      ctaLabel: "Shop All T-Shirts →",
+      swatches: [
+        {name:"Ivory", price:"₹1,799", color:"#F6F2EA"},
+        {name:"Graphite", price:"₹1,799", color:"#15130F"},
+        {name:"Oxblood", price:"₹1,899", color:"#7A2430"},
+        {name:"Stone", price:"₹1,799", color:"#B9AF9D"}
+      ]
+    },
+    pants: {
+      eyebrow: "03 · Pants",
+      title: "Wide-Leg & Joggers",
+      desc: "Relaxed, considered fits built to move from desk to flight.",
+      image: "assets/pants-stone.png",
+      href: "#pants",
+      ctaLabel: "Shop All Pants →",
+      swatches: [
+        {name:"Graphite Wide-Leg", price:"₹3,299", color:"#15130F"},
+        {name:"Stone Jogger", price:"₹2,999", color:"#B9AF9D"},
+        {name:"Ivory Wide-Leg", price:"₹3,299", color:"#F6F2EA"},
+        {name:"Oxblood Jogger", price:"₹2,999", color:"#7A2430"}
+      ]
+    },
+    shorts: {
+      eyebrow: "04 · Shorts",
+      title: "Warm-Weather Shorts",
+      desc: "420 GSM terry with a 5\" inseam — the hoodie's off-duty partner.",
+      image: "assets/shorts-stone.png",
+      href: "#shorts",
+      ctaLabel: "Shop All Shorts →",
+      swatches: [
+        {name:"Oxblood", price:"₹2,199", color:"#7A2430"},
+        {name:"Stone", price:"₹2,199", color:"#B9AF9D"},
+        {name:"Graphite", price:"₹2,199", color:"#15130F"},
+        {name:"Ivory", price:"₹2,199", color:"#F6F2EA"}
+      ]
+    },
+    inners: {
+      eyebrow: "05 · Inners",
+      title: "Seamless Inners",
+      desc: "Tag-free cotton-modal basics, made to disappear under everything else.",
+      image: "assets/inners-black.png",
+      href: "#inners",
+      ctaLabel: "Shop All Inners →",
+      swatches: [
+        {name:"Nude Set", price:"₹1,499", color:"#D8B79A"},
+        {name:"Black Set", price:"₹1,499", color:"#15130F"},
+        {name:"Stone Set", price:"₹1,499", color:"#B9AF9D"},
+        {name:"Ivory Set", price:"₹1,499", color:"#F6F2EA"}
+      ]
+    }
+  };
+
+  const headerEl = document.getElementById('siteHeader');
+  const megaPanel = document.getElementById('megaPanel');
+  const megaOverlay = document.getElementById('megaOverlay');
+  const megaImage = document.getElementById('megaImage');
+  const megaEyebrow = document.getElementById('megaEyebrow');
+  const megaTitle = document.getElementById('megaTitle');
+  const megaDesc = document.getElementById('megaDesc');
+  const megaSwatches = document.getElementById('megaSwatches');
+  const megaCta = document.getElementById('megaCta');
+  const megaVisual = document.getElementById('megaVisual');
+  const catPills = Array.from(document.querySelectorAll('.cat-pill'));
+
+  function setHeaderHeight(){
+    if(headerEl){
+      document.documentElement.style.setProperty('--header-h', headerEl.offsetHeight + 'px');
+      const styleTag = document.getElementById('scrollMarginStyle') || (function(){
+        const s = document.createElement('style');
+        s.id = 'scrollMarginStyle';
+        document.head.appendChild(s);
+        return s;
+      })();
+      styleTag.textContent = '[id]{scroll-margin-top:' + (headerEl.offsetHeight + 14) + 'px;}';
+    }
+  }
+  setHeaderHeight();
+  window.addEventListener('resize', setHeaderHeight);
+  window.addEventListener('load', setHeaderHeight);
+
+  let megaOpenTimer = null, megaCloseTimer = null, activeCat = null;
+  const isMobileNav = () => window.innerWidth <= 860;
+
+  function populateMega(cat){
+    const d = CATEGORY_DATA[cat];
+    if(!d) return;
+    megaEyebrow.textContent = d.eyebrow;
+    megaTitle.textContent = d.title;
+    megaDesc.textContent = d.desc;
+    megaImage.src = d.image;
+    megaImage.alt = d.title;
+    megaCta.href = d.href;
+    megaCta.textContent = d.ctaLabel;
+    megaSwatches.innerHTML = d.swatches.map(sw =>
+      '<a class="mega-swatch-item" href="' + d.href + '">' +
+        '<span class="dot" style="background:' + sw.color + ';"></span>' +
+        '<span class="nm">' + sw.name + '</span>' +
+        '<span class="pr">' + sw.price + '</span>' +
+      '</a>'
+    ).join('');
+  }
+
+  function openMega(cat){
+    clearTimeout(megaCloseTimer);
+    activeCat = cat;
+    populateMega(cat);
+    catPills.forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
+    megaPanel.classList.add('open');
+    megaOverlay.classList.add('open');
+  }
+  function closeMega(){
+    megaPanel.classList.remove('open');
+    megaOverlay.classList.remove('open');
+    catPills.forEach(p => p.classList.remove('active'));
+    activeCat = null;
+  }
+
+  catPills.forEach(pill => {
+    const cat = pill.dataset.cat;
+    pill.addEventListener('mouseenter', () => {
+      if(isMobileNav()) return;
+      clearTimeout(megaCloseTimer);
+      clearTimeout(megaOpenTimer);
+      megaOpenTimer = setTimeout(() => openMega(cat), 70);
+    });
+    pill.addEventListener('mouseleave', () => {
+      if(isMobileNav()) return;
+      clearTimeout(megaOpenTimer);
+      megaCloseTimer = setTimeout(closeMega, 180);
+    });
+    pill.addEventListener('click', (e) => {
+      if(isMobileNav()){
+        return; // let default anchor-like navigation happen via href fallback below
+      }
+      e.preventDefault();
+      if(activeCat === cat){ closeMega(); }
+      else { openMega(cat); }
+    });
+    pill.addEventListener('focus', () => { if(!isMobileNav()) openMega(cat); });
+  });
+
+  // On mobile, tapping a pill should jump straight to the section
+  catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      if(isMobileNav()){
+        const target = document.getElementById(pill.dataset.cat);
+        if(target){ target.scrollIntoView({behavior:'smooth'}); }
+      }
+    });
+  });
+
+  megaPanel.addEventListener('mouseenter', () => clearTimeout(megaCloseTimer));
+  megaPanel.addEventListener('mouseleave', () => {
+    megaCloseTimer = setTimeout(closeMega, 180);
+  });
+  megaOverlay.addEventListener('click', closeMega);
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMega(); });
+
+  // 3D tilt + sheen tracking on the mega visual image
+  if(megaVisual){
+    megaVisual.addEventListener('mousemove', (e) => {
+      const rect = megaVisual.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      const px = (x / rect.width) * 100, py = (y / rect.height) * 100;
+      megaVisual.style.setProperty('--mx', px + '%');
+      megaVisual.style.setProperty('--my', py + '%');
+      const rotY = ((x / rect.width) - 0.5) * 10;
+      const rotX = ((y / rect.height) - 0.5) * -10;
+      megaImage.style.transform = 'scale(1.06) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+    });
+    megaVisual.addEventListener('mouseleave', () => {
+      megaImage.style.transform = 'scale(1.02) rotateX(0deg) rotateY(0deg)';
+    });
+  }
 </script>
 
 </body>
