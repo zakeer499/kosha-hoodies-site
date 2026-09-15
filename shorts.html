@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kosha — Shorts</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav" id="siteHeader">
+  <div class="announce">Designed <b>only</b> for women — no menswear, no unisex sizing, ever</div>
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html">KOSHA</a>
+    <nav class="nav-links">
+      <a href="index.html#provenance">Our Story</a>
+      <a href="index.html#sizing">Sizing</a>
+    </nav>
+    <div class="nav-right">
+      <span style="opacity:0.7;">₹ INR</span>
+      <button type="button" class="cart-toggle" id="cartToggle" aria-label="Open bag">
+        Bag<span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+      <a class="nav-cta" href="hoodies.html">Shop the edit</a>
+    </div>
+  </div>
+  <nav class="category-bar" id="categoryBar">
+    <div class="wrap category-bar-inner">
+      <a href="hoodies.html" class="cat-pill" data-cat="hoodies">
+        <span class="cat-pill-ic"><img src="assets/product-oxblood.png" alt="" loading="lazy"></span>
+        Hoodies<span class="chev">▾</span>
+      </a>
+      <a href="tshirts.html" class="cat-pill" data-cat="tshirts">
+        <span class="cat-pill-ic"><img src="assets/tshirt-ivory.png" alt="" loading="lazy"></span>
+        T-Shirts<span class="chev">▾</span>
+      </a>
+      <a href="pants.html" class="cat-pill" data-cat="pants">
+        <span class="cat-pill-ic"><img src="assets/pants-graphite.png" alt="" loading="lazy"></span>
+        Pants<span class="chev">▾</span>
+      </a>
+      <a href="shorts.html" class="cat-pill" data-cat="shorts">
+        <span class="cat-pill-ic"><img src="assets/shorts-oxblood.png" alt="" loading="lazy"></span>
+        Shorts<span class="chev">▾</span>
+      </a>
+      <a href="inners.html" class="cat-pill" data-cat="inners">
+        <span class="cat-pill-ic"><img src="assets/inners-nude.png" alt="" loading="lazy"></span>
+        Inners<span class="chev">▾</span>
+      </a>
+    </div>
+  </nav>
+</header>
+<div class="mega-overlay" id="megaOverlay"></div>
+<div class="mega-panel" id="megaPanel">
+  <div class="wrap mega-panel-inner">
+    <div class="mega-visual" id="megaVisual">
+      <img id="megaImage" src="assets/lifestyle.png" alt="">
+      <div class="sheen"></div>
+    </div>
+    <div class="mega-content">
+      <div class="mega-eyebrow" id="megaEyebrow">01 · Hoodies</div>
+      <h3 id="megaTitle">The Terry Hoodie</h3>
+      <p id="megaDesc">420 GSM French terry, cut oversized for the cropped-not-cropped length we're known for.</p>
+      <div class="mega-swatches" id="megaSwatches"></div>
+      <a href="hoodies.html" class="mega-cta" id="megaCta">Shop All Hoodies →</a>
+    </div>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Kosha</a> / Shorts</div>
+    <div class="section-eyebrow">04 · Shorts</div>
+    <h1>Built for warmer states, not an afterthought.</h1>
+    <p>The same 420 GSM terry as our hoodies, cut into a relaxed short with a 5" inseam and real side pockets — made with Chennai and Hyderabad summers in mind.</p>
+  </div>
+</section>
+<section class="category-grid-section">
+  <div class="wrap">
+    <div class="product-grid" id="categoryGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="foot-brand">
+        <div class="logo">KOSHA</div>
+        <p>A women-only wardrobe label, designed and made in India for the way India actually dresses — AC to evening chill, in one layer.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="Your email" aria-label="Email address">
+          <button type="button">Join</button>
+        </div>
+      </div>
+      <div>
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="hoodies.html">Hoodies</a></li>
+          <li><a href="tshirts.html">T-Shirts</a></li>
+          <li><a href="pants.html">Pants</a></li>
+          <li><a href="shorts.html">Shorts</a></li>
+          <li><a href="inners.html">Inners</a></li>
+          <li><a href="index.html#sizing">Size guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Track your order</a></li>
+          <li><a href="#">Returns &amp; exchanges</a></li>
+          <li><a href="#">Shipping (Pan-India)</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="index.html#provenance">Our story</a></li>
+          <li><a href="index.html#fabric">The fabric</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kosha Apparel Pvt. Ltd. All prices in INR, inclusive of GST.</span>
+      <span>Privacy · Terms · Made in India</span>
+    </div>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping bag">
+  <div class="cart-head">
+    <h3>Your Bag</h3>
+    <button type="button" class="cart-close" id="cartClose" aria-label="Close bag">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your bag is empty. Add something you'll actually wear.</div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-note">Inclusive of GST. Shipping free over ₹1,999.</div>
+    <button type="button" class="cart-checkout" id="cartCheckout" disabled>Checkout</button>
+  </div>
+</aside>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="js/shop-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/category-page.js"></script>
+<script src="js/menu.js"></script>
+<script>renderCategoryPage("shorts");</script>
+</body>
+</html>

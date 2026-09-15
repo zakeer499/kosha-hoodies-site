@@ -4,423 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kosha — Womenswear, only. Premium basics for India</title>
-<style>
-  :root{
-    --ivory:#F6F2EA;
-    --ivory-2:#EFE9DD;
-    --graphite:#15130F;
-    --graphite-2:#211E19;
-    --oxblood:#7A2430;
-    --oxblood-2:#5E1B25;
-    --stone:#B9AF9D;
-    --gold:#B08D4F;
-    --ink:#1C1B19;
-    --ink-soft:#57534A;
-    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--ivory);
-    color:var(--ink);
-    font-family:var(--sans);
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img{display:block;max-width:100%;}
-  a{color:inherit;text-decoration:none;}
-  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
-  @media (max-width:700px){.wrap{padding:0 22px;}}
-
-  /* focus visibility */
-  a:focus-visible, button:focus-visible{outline:2px solid var(--oxblood); outline-offset:3px;}
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
-  }
-
-  /* ---------- NAV ---------- */
-  header.nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(246,242,234,0.72);
-    backdrop-filter:blur(18px) saturate(160%);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    border-bottom:1px solid rgba(28,27,25,0.08);
-  }
-  .nav-inner{
-    display:flex; align-items:center; justify-content:space-between;
-    height:64px;
-  }
-  .logo{
-    font-family:var(--serif); font-size:22px; letter-spacing:0.04em; font-weight:600;
-  }
-  .nav-links{display:flex; gap:34px; font-size:13px; letter-spacing:0.02em;}
-  .nav-links a{opacity:0.82; transition:opacity .2s;}
-  .nav-links a:hover{opacity:1;}
-  .nav-right{display:flex; align-items:center; gap:22px; font-size:13px;}
-  .nav-cta{
-    background:var(--ink); color:var(--ivory); padding:8px 18px; border-radius:999px; font-size:12.5px; letter-spacing:0.03em;
-  }
-  .nav-mobile-toggle{display:none;}
-  @media (max-width:860px){
-    .nav-links{display:none;}
-  }
-  .announce{
-    background:var(--graphite); color:var(--ivory);
-    text-align:center; font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase;
-    padding:9px 0; font-weight:600;
-  }
-  .announce b{color:var(--gold); font-weight:700;}
-
-  /* ---------- CATEGORY BAR + MEGA MENU ---------- */
-  .category-bar{
-    border-top:1px solid rgba(28,27,25,0.07);
-    background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
-  }
-  .category-bar-inner{
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    padding:10px 0; perspective:1200px;
-  }
-  .cat-pill{
-    display:flex; align-items:center; gap:10px; padding:7px 18px 7px 8px; border-radius:999px;
-    background:transparent; border:1px solid transparent; cursor:pointer;
-    font-family:var(--sans); font-size:13.5px; font-weight:600; color:var(--ink);
-    transition:background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
-    transform-style:preserve-3d;
-  }
-  .cat-pill-ic{
-    width:34px; height:34px; border-radius:50%; overflow:hidden; flex-shrink:0;
-    box-shadow:0 2px 6px rgba(28,27,25,0.18), inset 0 0 0 1px rgba(255,255,255,0.5);
-    transition:transform .3s ease, box-shadow .3s ease;
-  }
-  .cat-pill-ic img{width:100%; height:100%; object-fit:cover; display:block;}
-  .cat-pill:hover, .cat-pill.active{
-    background:var(--ivory); border-color:rgba(28,27,25,0.1);
-    box-shadow:0 10px 24px -12px rgba(28,27,25,0.35);
-    transform:translateY(-2px);
-  }
-  .cat-pill:hover .cat-pill-ic, .cat-pill.active .cat-pill-ic{
-    transform:scale(1.08) translateZ(6px);
-    box-shadow:0 6px 16px rgba(28,27,25,0.28), inset 0 0 0 1px rgba(255,255,255,0.6);
-  }
-  .cat-pill .chev{font-size:9px; margin-left:-2px; opacity:0.5; transition:transform .25s ease;}
-  .cat-pill.active .chev{transform:rotate(180deg);}
-
-  .mega-overlay{
-    position:fixed; inset:0; top:0; background:rgba(21,19,15,0.35); z-index:98;
-    opacity:0; pointer-events:none; transition:opacity .35s ease;
-    backdrop-filter:blur(2px);
-  }
-  .mega-overlay.open{opacity:1; pointer-events:auto;}
-
-  .mega-panel{
-    position:fixed; left:0; right:0; top:var(--header-h, 138px); z-index:99;
-    background:var(--ivory);
-    box-shadow:0 40px 80px -20px rgba(21,19,15,0.35), 0 2px 0 rgba(28,27,25,0.06);
-    border-bottom:1px solid rgba(28,27,25,0.08);
-    opacity:0; visibility:hidden; transform:translateY(-14px) scaleY(0.98); transform-origin:top center;
-    transition:opacity .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear .35s;
-  }
-  .mega-panel.open{
-    opacity:1; visibility:visible; transform:translateY(0) scaleY(1);
-    transition:opacity .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s linear 0s;
-  }
-  .mega-panel-inner{
-    display:grid; grid-template-columns:0.9fr 1.3fr; gap:56px; padding:44px 0 52px; align-items:center;
-  }
-  .mega-visual{
-    position:relative; aspect-ratio:5/4; border-radius:20px; overflow:hidden; perspective:1000px;
-    box-shadow:0 30px 60px -24px rgba(28,27,25,0.4);
-  }
-  .mega-visual img{
-    width:100%; height:100%; object-fit:cover;
-    transition:transform .15s ease-out;
-    transform:scale(1.02);
-    will-change:transform;
-  }
-  .mega-visual .sheen{
-    position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s ease;
-    background:radial-gradient(circle 220px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.35), transparent 60%);
-    mix-blend-mode:overlay;
-  }
-  .mega-visual:hover .sheen{opacity:1;}
-  .mega-eyebrow{font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--oxblood); font-weight:700; margin-bottom:14px;}
-  .mega-content h3{font-family:var(--serif); font-size:32px; font-weight:600; margin-bottom:14px; letter-spacing:-0.01em;}
-  .mega-content > p{color:var(--ink-soft); font-size:15px; line-height:1.6; max-width:420px; margin-bottom:26px;}
-  .mega-swatches{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:30px; max-width:440px;}
-  .mega-swatch-item{
-    display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:12px;
-    background:var(--ivory-2); font-size:13px; transition:transform .2s ease, box-shadow .2s ease;
-    cursor:pointer; border:1px solid transparent;
-  }
-  .mega-swatch-item:hover{transform:translateY(-2px) translateZ(4px); box-shadow:0 8px 18px -10px rgba(28,27,25,0.3); border-color:rgba(28,27,25,0.08);}
-  .mega-swatch-item .dot{width:14px; height:14px; border-radius:50%; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08);}
-  .mega-swatch-item .nm{font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .mega-swatch-item .pr{color:var(--ink-soft); font-size:12px;}
-  .mega-cta{
-    display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--ivory);
-    padding:13px 26px; border-radius:999px; font-size:13.5px; font-weight:700;
-    transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
-    box-shadow:0 14px 30px -14px rgba(28,27,25,0.5);
-  }
-  .mega-cta:hover{background:var(--oxblood); transform:translateY(-2px); box-shadow:0 18px 34px -12px rgba(122,36,48,0.55);}
-  @media (max-width:900px){
-    .mega-panel-inner{grid-template-columns:1fr; gap:24px; padding:28px 0 34px;}
-    .mega-visual{aspect-ratio:16/9;}
-  }
-  @media (max-width:860px){
-    .category-bar-inner{justify-content:flex-start; overflow-x:auto; padding:10px 20px; gap:6px; -ms-overflow-style:none; scrollbar-width:none;}
-    .category-bar-inner::-webkit-scrollbar{display:none;}
-    .cat-pill{flex-shrink:0;}
-  }
-
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative; height:100vh; min-height:680px; width:100%;
-    display:flex; align-items:flex-end;
-    background:var(--graphite);
-    overflow:hidden;
-  }
-  .hero img{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center;
-    opacity:0.96;
-  }
-  .hero::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(21,19,15,0.05) 0%, rgba(21,19,15,0.15) 45%, rgba(21,19,15,0.92) 100%);
-  }
-  .hero-content{position:relative; z-index:2; width:100%; padding-bottom:64px;}
-  .eyebrow{
-    color:var(--gold); font-size:12px; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:18px; font-weight:600;
-  }
-  .hero h1{
-    font-family:var(--serif); color:var(--ivory); font-size:clamp(40px,7vw,84px); line-height:1.02; letter-spacing:-0.01em; max-width:900px; font-weight:600;
-  }
-  .hero h1 em{font-style:italic; color:var(--stone);}
-  .hero p.sub{
-    color:rgba(246,242,234,0.78); font-size:clamp(15px,1.7vw,19px); max-width:480px; margin-top:22px; line-height:1.55;
-  }
-  .hero-actions{display:flex; gap:16px; margin-top:34px; align-items:center; flex-wrap:wrap;}
-  .btn-primary{
-    background:var(--ivory); color:var(--graphite); padding:14px 30px; border-radius:999px; font-size:14.5px; font-weight:600; letter-spacing:0.01em;
-    transition:transform .25s ease, background .25s ease;
-    display:inline-block;
-  }
-  .btn-primary:hover{transform:translateY(-2px); background:#fff;}
-  .btn-ghost{
-    color:var(--ivory); font-size:14.5px; border-bottom:1px solid rgba(246,242,234,0.4); padding-bottom:3px;
-  }
-  .hero-price{color:rgba(246,242,234,0.6); font-size:13px; margin-top:26px; letter-spacing:0.02em;}
-
-  /* ---------- SECTION HEADERS ---------- */
-  .section{padding:120px 0;}
-  @media (max-width:700px){.section{padding:76px 0;}}
-  .section-head{max-width:640px; margin-bottom:64px;}
-  .section-eyebrow{
-    font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--oxblood); font-weight:700; margin-bottom:16px;
-  }
-  .section-head h2{
-    font-family:var(--serif); font-size:clamp(30px,4vw,48px); line-height:1.1; font-weight:600; letter-spacing:-0.01em;
-  }
-  .section-head p{color:var(--ink-soft); font-size:17px; line-height:1.6; margin-top:18px;}
-
-  /* ---------- COLLECTION STRIP ---------- */
-  .collection{background:var(--ivory);}
-  .strip{
-    display:flex; gap:22px; overflow-x:auto; padding-bottom:16px; scroll-snap-type:x mandatory;
-    -ms-overflow-style:none; scrollbar-width:none;
-  }
-  .strip::-webkit-scrollbar{display:none;}
-  .card{
-    flex:0 0 auto; width:340px; scroll-snap-align:start;
-    background:var(--ivory-2); border-radius:22px; overflow:hidden;
-    border:1px solid rgba(28,27,25,0.06);
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
-  }
-  .card:hover{transform:translateY(-6px); box-shadow:0 24px 48px -20px rgba(28,27,25,0.25);}
-  .card-img{aspect-ratio:1/1; overflow:hidden; background:var(--stone);}
-  .card-img img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease;}
-  .card:hover .card-img img{transform:scale(1.05);}
-  .card-info{padding:20px 22px 26px;}
-  .card-info .swatch{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:8px; vertical-align:middle;}
-  .card-info h3{font-family:var(--serif); font-size:20px; font-weight:600; margin-bottom:6px;}
-  .card-info .desc{color:var(--ink-soft); font-size:13.5px; margin-bottom:14px;}
-  .card-info .price-row{display:flex; align-items:baseline; justify-content:space-between;}
-  .card-info .price{font-size:16px; font-weight:600;}
-  .card-info .price .strike{color:var(--ink-soft); text-decoration:line-through; font-weight:400; font-size:13px; margin-left:7px;}
-  .card-info .add{font-size:12.5px; color:var(--oxblood); font-weight:700; letter-spacing:0.02em;}
-  .add-btn{
-    margin-top:14px; width:100%; padding:11px 0; border-radius:999px; border:1px solid var(--ink);
-    background:transparent; color:var(--ink); font-size:13px; font-weight:700; letter-spacing:0.02em;
-    cursor:pointer; transition:background .2s ease, color .2s ease;
-  }
-  .add-btn:hover{background:var(--ink); color:var(--ivory);}
-  .add-btn.just-added{background:var(--oxblood); color:var(--ivory); border-color:var(--oxblood);}
-
-  /* ---------- CART ---------- */
-  .cart-toggle{
-    position:relative; display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
-    font-size:13px; color:var(--ink); font-family:var(--sans); padding:6px;
-  }
-  .cart-count{
-    position:absolute; top:-4px; right:-4px; background:var(--oxblood); color:var(--ivory);
-    font-size:10px; font-weight:700; border-radius:50%; width:16px; height:16px;
-    display:flex; align-items:center; justify-content:center; line-height:1;
-  }
-  .cart-overlay{
-    position:fixed; inset:0; background:rgba(21,19,15,0.5); z-index:200; opacity:0; pointer-events:none; transition:opacity .3s ease;
-  }
-  .cart-overlay.open{opacity:1; pointer-events:auto;}
-  .cart-drawer{
-    position:fixed; top:0; right:0; bottom:0; width:min(420px, 100vw); background:var(--ivory); z-index:201;
-    display:flex; flex-direction:column; transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
-    box-shadow:-20px 0 60px rgba(0,0,0,0.2);
-  }
-  .cart-drawer.open{transform:translateX(0);}
-  .cart-head{display:flex; align-items:center; justify-content:space-between; padding:22px 24px; border-bottom:1px solid rgba(28,27,25,0.1);}
-  .cart-head h3{font-family:var(--serif); font-size:20px; font-weight:600;}
-  .cart-close{background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink); line-height:1;}
-  .cart-items{flex:1; overflow-y:auto; padding:10px 24px;}
-  .cart-empty{color:var(--ink-soft); font-size:14px; padding:40px 0; text-align:center;}
-  .cart-item{display:flex; gap:14px; padding:16px 0; border-bottom:1px solid rgba(28,27,25,0.08);}
-  .cart-item img{width:64px; height:64px; object-fit:cover; border-radius:10px; flex-shrink:0;}
-  .cart-item-info{flex:1; min-width:0;}
-  .cart-item-info .name{font-size:13.5px; font-weight:600; margin-bottom:4px;}
-  .cart-item-info .unit-price{font-size:12px; color:var(--ink-soft); margin-bottom:8px;}
-  .qty-stepper{display:flex; align-items:center; gap:10px;}
-  .qty-stepper button{
-    width:24px; height:24px; border-radius:50%; border:1px solid rgba(28,27,25,0.25); background:none;
-    font-size:14px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;
-  }
-  .qty-stepper span{font-size:13px; font-weight:600; min-width:16px; text-align:center;}
-  .cart-item-remove{background:none; border:none; color:var(--ink-soft); font-size:12px; text-decoration:underline; cursor:pointer; align-self:flex-start;}
-  .cart-item-total{font-size:13.5px; font-weight:700; align-self:flex-start; white-space:nowrap;}
-  .cart-foot{padding:20px 24px 26px; border-top:1px solid rgba(28,27,25,0.1);}
-  .cart-subtotal{display:flex; justify-content:space-between; font-size:15px; font-weight:700; margin-bottom:6px;}
-  .cart-note{font-size:12px; color:var(--ink-soft); margin-bottom:16px;}
-  .cart-checkout{
-    width:100%; padding:15px 0; border-radius:999px; border:none; background:var(--ink); color:var(--ivory);
-    font-size:14.5px; font-weight:700; cursor:pointer; transition:background .2s ease;
-  }
-  .cart-checkout:hover{background:var(--oxblood);}
-  .cart-checkout:disabled{opacity:0.5; cursor:not-allowed;}
-
-  /* ---------- FABRIC / SPLIT SECTION ---------- */
-  .split{
-    display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:0;
-  }
-  @media (max-width:860px){.split{grid-template-columns:1fr;}}
-  .split-media{aspect-ratio:1/1; overflow:hidden;}
-  .split-media img{width:100%; height:100%; object-fit:cover;}
-  .split-text{padding:60px 80px;}
-  @media (max-width:860px){.split-text{padding:50px 24px;}}
-  .split-text .section-eyebrow{margin-bottom:16px;}
-  .split-text h2{font-family:var(--serif); font-size:clamp(28px,3.6vw,42px); line-height:1.14; font-weight:600; margin-bottom:20px;}
-  .split-text p{color:var(--ink-soft); font-size:16.5px; line-height:1.7; margin-bottom:16px; max-width:460px;}
-  .spec-list{margin-top:28px; display:grid; gap:14px;}
-  .spec-list div{display:flex; justify-content:space-between; max-width:420px; border-bottom:1px solid rgba(28,27,25,0.1); padding-bottom:12px; font-size:14.5px;}
-  .spec-list span:first-child{color:var(--ink-soft);}
-  .spec-list span:last-child{font-weight:600;}
-
-  .dark{background:var(--graphite); color:var(--ivory);}
-  .dark .section-head p, .dark .split-text p{color:rgba(246,242,234,0.68);}
-  .dark .section-eyebrow{color:var(--gold);}
-  .dark .spec-list div{border-bottom-color:rgba(246,242,234,0.16);}
-  .dark .spec-list span:first-child{color:rgba(246,242,234,0.6);}
-
-  /* ---------- PROVENANCE ---------- */
-  .provenance{background:var(--graphite); color:var(--ivory); text-align:center; padding:110px 0;}
-  .provenance .section-eyebrow{color:var(--gold); justify-content:center;}
-  .provenance h2{font-family:var(--serif); font-size:clamp(28px,4vw,46px); max-width:800px; margin:0 auto 50px; line-height:1.25; font-weight:500;}
-  .provenance h2 b{font-weight:600; color:var(--gold);}
-  .route{
-    display:flex; align-items:flex-start; justify-content:center; max-width:900px; margin:0 auto; flex-wrap:wrap; row-gap:36px;
-  }
-  .route .stop{display:flex; align-items:flex-start; gap:0; padding:0 22px;}
-  .route .stop-inner{display:flex; flex-direction:column; align-items:center; gap:10px;}
-  .route .stop .dot{width:10px; height:10px; border-radius:50%; background:var(--gold);}
-  .route .stop .city{font-family:var(--serif); font-size:19px;}
-  .route .stop .role{font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(246,242,234,0.55); white-space:nowrap;}
-  .route .line{width:50px; height:1px; background:rgba(246,242,234,0.28); margin-top:5px; align-self:flex-start; margin-left:22px;}
-  @media (max-width:760px){ .route .line{display:none;} .route{flex-direction:column; align-items:center; gap:28px;} .route .stop{padding:0;} }
-
-  /* ---------- DETAIL GRID ---------- */
-  .details{background:var(--ivory-2);}
-  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(28,27,25,0.08); border:1px solid rgba(28,27,25,0.08); border-radius:24px; overflow:hidden;}
-  @media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr);}}
-  .detail-cell{background:var(--ivory); padding:44px 30px; }
-  .detail-cell .num{font-family:var(--serif); font-size:13px; color:var(--oxblood); font-weight:700; letter-spacing:0.05em; margin-bottom:22px;}
-  .detail-cell h4{font-family:var(--serif); font-size:19px; font-weight:600; margin-bottom:10px;}
-  .detail-cell p{font-size:14px; color:var(--ink-soft); line-height:1.6;}
-
-  /* ---------- SIZE ---------- */
-  .size-section .wrap{display:grid; grid-template-columns:0.85fr 1.15fr; gap:70px; align-items:start;}
-  @media (max-width:900px){.size-section .wrap{grid-template-columns:1fr;}}
-  table.size-table{width:100%; border-collapse:collapse; font-size:14px;}
-  table.size-table th, table.size-table td{padding:14px 10px; text-align:left; border-bottom:1px solid rgba(28,27,25,0.1);}
-  table.size-table th{font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); font-weight:600;}
-  table.size-table td:first-child, table.size-table th:first-child{font-weight:700;}
-  .fit-note{margin-top:26px; background:var(--ivory-2); border-radius:16px; padding:20px 24px; font-size:14px; color:var(--ink-soft); line-height:1.6;}
-  .fit-note b{color:var(--ink);}
-
-  /* ---------- LIFESTYLE / QUOTE ---------- */
-  .quote-section{position:relative; min-height:640px; display:flex; align-items:flex-end; overflow:hidden;}
-  .quote-section img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-  .quote-section::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(21,19,15,0.82) 0%, rgba(21,19,15,0) 55%);}
-  .quote-content{position:relative; z-index:2; padding:60px 0; color:var(--ivory); max-width:640px;}
-  .quote-content p.quote{font-family:var(--serif); font-size:clamp(22px,3vw,32px); line-height:1.4; font-style:italic; margin-bottom:18px;}
-  .quote-content .attribution{font-size:13px; color:rgba(246,242,234,0.7); letter-spacing:0.03em;}
-
-  /* ---------- TRUST BAR ---------- */
-  .trust{background:var(--ink); color:var(--ivory);}
-  .trust .wrap{display:flex; justify-content:space-between; padding:36px 0; flex-wrap:wrap; gap:24px;}
-  .trust .item{display:flex; align-items:center; gap:12px; font-size:13.5px; flex:1; min-width:200px;}
-  .trust .item .ic{font-size:18px; color:var(--gold);}
-
-  /* ---------- FOOTER ---------- */
-  footer{background:var(--graphite); color:rgba(246,242,234,0.7); padding:80px 0 34px;}
-  .footer-top{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:50px; padding-bottom:60px; border-bottom:1px solid rgba(246,242,234,0.12);}
-  @media (max-width:800px){.footer-top{grid-template-columns:1fr 1fr; row-gap:40px;}}
-  .footer-top h5{color:var(--ivory); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:18px;}
-  .footer-top ul{list-style:none; display:grid; gap:11px; font-size:14px;}
-  .footer-top ul a:hover{color:var(--ivory);}
-  .foot-brand .logo{color:var(--ivory); margin-bottom:14px;}
-  .foot-brand p{font-size:14px; line-height:1.6; max-width:280px; margin-bottom:22px;}
-  .newsletter{display:flex; border:1px solid rgba(246,242,234,0.25); border-radius:999px; overflow:hidden; max-width:320px;}
-  .newsletter input{background:none; border:none; padding:12px 16px; color:var(--ivory); font-size:13px; flex:1; outline:none;}
-  .newsletter input::placeholder{color:rgba(246,242,234,0.45);}
-  .newsletter button{background:var(--ivory); color:var(--graphite); border:none; padding:0 20px; font-size:13px; font-weight:700; cursor:pointer;}
-  .footer-bottom{display:flex; justify-content:space-between; padding-top:28px; font-size:12.5px; flex-wrap:wrap; gap:12px;}
-
-  .reveal{opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease;}
-  .reveal.in{opacity:1; transform:translateY(0);}
-  [id]{scroll-margin-top:104px;}
-
-  /* ---------- CATEGORY BAND ---------- */
-  .category-band{background:var(--ivory);}
-  .cat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px;}
-  @media (max-width:860px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
-  .cat-chip{
-    display:block; border-radius:16px; overflow:hidden; position:relative; aspect-ratio:4/5;
-    border:1px solid rgba(28,27,25,0.08);
-  }
-  .cat-chip img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
-  .cat-chip:hover img{transform:scale(1.06);}
-  .cat-chip .cat-label{
-    position:absolute; left:0; right:0; bottom:0; padding:16px 16px 14px;
-    background:linear-gradient(0deg, rgba(21,19,15,0.75), rgba(21,19,15,0));
-    color:var(--ivory); font-family:var(--serif); font-size:16px; font-weight:600;
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="nav" id="siteHeader">
   <div class="announce">Designed <b>only</b> for women — no menswear, no unisex sizing, ever</div>
   <div class="wrap nav-inner">
-    <a class="logo" href="#top">KOSHA</a>
+    <a class="logo" href="index.html">KOSHA</a>
     <nav class="nav-links">
       <a href="#provenance">Our Story</a>
       <a href="#sizing">Sizing</a>
@@ -430,31 +21,31 @@
       <button type="button" class="cart-toggle" id="cartToggle" aria-label="Open bag">
         Bag<span class="cart-count" id="cartCount" style="display:none;">0</span>
       </button>
-      <a class="nav-cta" href="#hoodies">Shop the edit</a>
+      <a class="nav-cta" href="hoodies.html">Shop the edit</a>
     </div>
   </div>
   <nav class="category-bar" id="categoryBar">
     <div class="wrap category-bar-inner">
-      <button type="button" class="cat-pill" data-cat="hoodies">
+      <a href="hoodies.html" class="cat-pill" data-cat="hoodies">
         <span class="cat-pill-ic"><img src="assets/product-oxblood.png" alt="" loading="lazy"></span>
         Hoodies<span class="chev">▾</span>
-      </button>
-      <button type="button" class="cat-pill" data-cat="tshirts">
+      </a>
+      <a href="tshirts.html" class="cat-pill" data-cat="tshirts">
         <span class="cat-pill-ic"><img src="assets/tshirt-ivory.png" alt="" loading="lazy"></span>
         T-Shirts<span class="chev">▾</span>
-      </button>
-      <button type="button" class="cat-pill" data-cat="pants">
+      </a>
+      <a href="pants.html" class="cat-pill" data-cat="pants">
         <span class="cat-pill-ic"><img src="assets/pants-graphite.png" alt="" loading="lazy"></span>
         Pants<span class="chev">▾</span>
-      </button>
-      <button type="button" class="cat-pill" data-cat="shorts">
+      </a>
+      <a href="shorts.html" class="cat-pill" data-cat="shorts">
         <span class="cat-pill-ic"><img src="assets/shorts-oxblood.png" alt="" loading="lazy"></span>
         Shorts<span class="chev">▾</span>
-      </button>
-      <button type="button" class="cat-pill" data-cat="inners">
+      </a>
+      <a href="inners.html" class="cat-pill" data-cat="inners">
         <span class="cat-pill-ic"><img src="assets/inners-nude.png" alt="" loading="lazy"></span>
         Inners<span class="chev">▾</span>
-      </button>
+      </a>
     </div>
   </nav>
 </header>
@@ -470,7 +61,7 @@
       <h3 id="megaTitle">The Terry Hoodie</h3>
       <p id="megaDesc">420 GSM French terry, cut oversized for the cropped-not-cropped length we're known for.</p>
       <div class="mega-swatches" id="megaSwatches"></div>
-      <a href="#hoodies" class="mega-cta" id="megaCta">Shop All Hoodies →</a>
+      <a href="hoodies.html" class="mega-cta" id="megaCta">Shop All Hoodies →</a>
     </div>
   </div>
 </div>
@@ -482,7 +73,7 @@
     <h1>Warmth, <em>reconsidered.</em></h1>
     <p class="sub">Hoodies, tees, pants, shorts and inners — pattern-drafted only for a woman's fit, in fabric built for Delhi mornings and Bengaluru air-conditioning alike.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="#hoodies">Shop the full wardrobe</a>
+      <a class="btn-primary" href="hoodies.html">Shop the full wardrobe</a>
       <a class="btn-ghost" href="#fabric">Why it's different →</a>
     </div>
     <div class="hero-price">From ₹1,499 · Inclusive of GST · Free shipping over ₹1,999</div>
@@ -497,251 +88,11 @@
       <p>No "unisex" sizing borrowed from a men's block. Every Kosha piece — from hoodies to inners — is pattern-drafted on a women's fit from the first sketch.</p>
     </div>
     <div class="cat-grid reveal">
-      <a class="cat-chip" href="#hoodies"><img src="assets/product-oxblood.png" alt="Hoodies"><span class="cat-label">Hoodies</span></a>
-      <a class="cat-chip" href="#tshirts"><img src="assets/tshirt-ivory.png" alt="T-Shirts"><span class="cat-label">T-Shirts</span></a>
-      <a class="cat-chip" href="#pants"><img src="assets/pants-graphite.png" alt="Pants"><span class="cat-label">Pants</span></a>
-      <a class="cat-chip" href="#shorts"><img src="assets/shorts-oxblood.png" alt="Shorts"><span class="cat-label">Shorts</span></a>
-      <a class="cat-chip" href="#inners"><img src="assets/inners-nude.png" alt="Inners"><span class="cat-label">Inners</span></a>
-    </div>
-  </div>
-</section>
-
-<section class="section collection" id="hoodies">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-eyebrow">01 · Hoodies</div>
-      <h2>Four colours. One silhouette, perfected.</h2>
-      <p>Every Kosha hoodie shares the same pattern — relaxed shoulder, dropped sleeve, cropped-not-cropped length — so the only decision left is colour.</p>
-    </div>
-    <div class="strip">
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/product-oxblood.png" alt="Kosha hoodie in Oxblood"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
-          <div class="desc">Deep, wine-dark red. Our most-loved shade.</div>
-          <div class="price-row"><div class="price">₹5,499</div></div>
-          <button type="button" class="add-btn" data-id="hoodie-oxblood" data-name="Hoodie — Oxblood" data-price="5499" data-img="assets/product-oxblood.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/product-ivory.png" alt="Kosha hoodie in Ivory Silk"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Silk</h3>
-          <div class="desc">Undyed cotton, brushed to a soft chalk finish.</div>
-          <div class="price-row"><div class="price">₹4,999</div></div>
-          <button type="button" class="add-btn" data-id="hoodie-ivory-silk" data-name="Hoodie — Ivory Silk" data-price="4999" data-img="assets/product-ivory.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/product-graphite.png" alt="Kosha hoodie in Graphite"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
-          <div class="desc">Near-black, warmed with a hint of grey.</div>
-          <div class="price-row"><div class="price">₹5,499</div></div>
-          <button type="button" class="add-btn" data-id="hoodie-graphite" data-name="Hoodie — Graphite" data-price="5499" data-img="assets/product-graphite.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/lifestyle.png" alt="Kosha hoodie in Stone worn outdoors"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
-          <div class="desc">A quiet warm grey that pairs with everything.</div>
-          <div class="price-row"><div class="price">₹5,199 <span class="strike">₹5,999</span></div></div>
-          <button type="button" class="add-btn" data-id="hoodie-stone" data-name="Hoodie — Stone" data-price="5199" data-img="assets/lifestyle.png">+ Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section collection" id="tshirts" style="background:var(--ivory-2);">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-eyebrow">02 · T-Shirts</div>
-      <h2>The everyday tee, done properly.</h2>
-      <p>190 GSM combed cotton, a boxy drop-shoulder cut, and a neckline that keeps its shape after fifty washes — not fifteen.</p>
-    </div>
-    <div class="strip">
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/tshirt-ivory.png" alt="Kosha t-shirt in Ivory"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory</h3>
-          <div class="desc">Undyed combed cotton, boxy drop-shoulder fit.</div>
-          <div class="price-row"><div class="price">₹1,799</div></div>
-          <button type="button" class="add-btn" data-id="t-shirt-ivory" data-name="T-Shirt — Ivory" data-price="1799" data-img="assets/tshirt-ivory.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/tshirt-graphite.png" alt="Kosha t-shirt in Graphite"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
-          <div class="desc">Near-black, garment-washed for softness.</div>
-          <div class="price-row"><div class="price">₹1,799</div></div>
-          <button type="button" class="add-btn" data-id="t-shirt-graphite" data-name="T-Shirt — Graphite" data-price="1799" data-img="assets/tshirt-graphite.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/tshirt-oxblood.png" alt="Kosha t-shirt in Oxblood"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
-          <div class="desc">Our signature red, in everyday cotton.</div>
-          <div class="price-row"><div class="price">₹1,899</div></div>
-          <button type="button" class="add-btn" data-id="t-shirt-oxblood" data-name="T-Shirt — Oxblood" data-price="1899" data-img="assets/tshirt-oxblood.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/tshirt-stone.png" alt="Kosha t-shirt in Stone"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
-          <div class="desc">A quiet warm grey for everyday layering.</div>
-          <div class="price-row"><div class="price">₹1,799</div></div>
-          <button type="button" class="add-btn" data-id="t-shirt-stone" data-name="T-Shirt — Stone" data-price="1799" data-img="assets/tshirt-stone.png">+ Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section collection" id="pants">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-eyebrow">03 · Pants</div>
-      <h2>Trousers that sit right, from desk to flight.</h2>
-      <p>A relaxed, wide-leg block with a real waistband — cut generous through the hip and tapered enough at the ankle to wear with heels or sneakers.</p>
-    </div>
-    <div class="strip">
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/pants-graphite.png" alt="Kosha wide-leg pants in Graphite"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#15130F;"></span>Graphite Wide-Leg</h3>
-          <div class="desc">Structured cotton twill, side pockets, tab waist.</div>
-          <div class="price-row"><div class="price">₹3,299</div></div>
-          <button type="button" class="add-btn" data-id="pants-graphite-wide-leg" data-name="Pants — Graphite Wide-Leg" data-price="3299" data-img="assets/pants-graphite.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/pants-stone.png" alt="Kosha joggers in Stone"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone Jogger</h3>
-          <div class="desc">Brushed fleece, tapered leg, zip ankle cuff.</div>
-          <div class="price-row"><div class="price">₹2,999</div></div>
-          <button type="button" class="add-btn" data-id="pants-stone-jogger" data-name="Pants — Stone Jogger" data-price="2999" data-img="assets/pants-stone.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/pants-ivory.png" alt="Kosha wide-leg pants in Ivory"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Wide-Leg</h3>
-          <div class="desc">Undyed cotton twill, side pockets, tab waist.</div>
-          <div class="price-row"><div class="price">₹3,299</div></div>
-          <button type="button" class="add-btn" data-id="pants-ivory-wide-leg" data-name="Pants — Ivory Wide-Leg" data-price="3299" data-img="assets/pants-ivory.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/pants-oxblood.png" alt="Kosha joggers in Oxblood"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood Jogger</h3>
-          <div class="desc">Brushed fleece, tapered leg, zip ankle cuff.</div>
-          <div class="price-row"><div class="price">₹2,999</div></div>
-          <button type="button" class="add-btn" data-id="pants-oxblood-jogger" data-name="Pants — Oxblood Jogger" data-price="2999" data-img="assets/pants-oxblood.png">+ Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section collection" id="shorts" style="background:var(--ivory-2);">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-eyebrow">04 · Shorts</div>
-      <h2>Built for warmer states, not an afterthought.</h2>
-      <p>The same 420 GSM terry as our hoodies, cut into a relaxed short with a 5" inseam and real side pockets — made with Chennai and Hyderabad summers in mind.</p>
-    </div>
-    <div class="strip">
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/shorts-oxblood.png" alt="Kosha shorts in Oxblood"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#7A2430;"></span>Oxblood</h3>
-          <div class="desc">Brushed terry, drawcord waist, side pockets.</div>
-          <div class="price-row"><div class="price">₹2,199</div></div>
-          <button type="button" class="add-btn" data-id="shorts-oxblood" data-name="Shorts — Oxblood" data-price="2199" data-img="assets/shorts-oxblood.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/shorts-stone.png" alt="Kosha shorts in Stone"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone</h3>
-          <div class="desc">A warm neutral grey, pairs with every tee.</div>
-          <div class="price-row"><div class="price">₹2,199</div></div>
-          <button type="button" class="add-btn" data-id="shorts-stone" data-name="Shorts — Stone" data-price="2199" data-img="assets/shorts-stone.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/shorts-graphite.png" alt="Kosha shorts in Graphite"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#15130F;"></span>Graphite</h3>
-          <div class="desc">Near-black terry, our most versatile short.</div>
-          <div class="price-row"><div class="price">₹2,199</div></div>
-          <button type="button" class="add-btn" data-id="shorts-graphite" data-name="Shorts — Graphite" data-price="2199" data-img="assets/shorts-graphite.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/shorts-ivory.png" alt="Kosha shorts in Ivory"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory</h3>
-          <div class="desc">Undyed brushed terry, drawcord waist.</div>
-          <div class="price-row"><div class="price">₹2,199</div></div>
-          <button type="button" class="add-btn" data-id="shorts-ivory" data-name="Shorts — Ivory" data-price="2199" data-img="assets/shorts-ivory.png">+ Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section collection" id="inners">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-eyebrow">05 · Inners</div>
-      <h2>Seamless basics, engineered to disappear.</h2>
-      <p>Tag-free, seam-free cotton-modal innerwear built to sit invisibly under everything else in this wardrobe — not an afterthought category, a real one.</p>
-    </div>
-    <div class="strip">
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/inners-nude.png" alt="Kosha seamless innerwear set in Nude"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#D8B896;"></span>Nude Set</h3>
-          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
-          <div class="price-row"><div class="price">₹1,499</div></div>
-          <button type="button" class="add-btn" data-id="inners-nude-set" data-name="Inners — Nude Set" data-price="1499" data-img="assets/inners-nude.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/inners-black.png" alt="Kosha seamless innerwear set in Black"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#15130F;"></span>Black Set</h3>
-          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
-          <div class="price-row"><div class="price">₹1,499</div></div>
-          <button type="button" class="add-btn" data-id="inners-black-set" data-name="Inners — Black Set" data-price="1499" data-img="assets/inners-black.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/inners-stone.png" alt="Kosha seamless innerwear set in Stone"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#B9AF9D;"></span>Stone Set</h3>
-          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
-          <div class="price-row"><div class="price">₹1,499</div></div>
-          <button type="button" class="add-btn" data-id="inners-stone-set" data-name="Inners — Stone Set" data-price="1499" data-img="assets/inners-stone.png">+ Add</button>
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card-img"><img src="assets/inners-ivory.png" alt="Kosha seamless innerwear set in Ivory"></div>
-        <div class="card-info">
-          <h3><span class="swatch" style="background:#F6F2EA; border:1px solid #d8d2c4;"></span>Ivory Set</h3>
-          <div class="desc">Camisole + brief, seamless cotton-modal.</div>
-          <div class="price-row"><div class="price">₹1,499</div></div>
-          <button type="button" class="add-btn" data-id="inners-ivory-set" data-name="Inners — Ivory Set" data-price="1499" data-img="assets/inners-ivory.png">+ Add</button>
-        </div>
-      </div>
+      <a class="cat-chip" href="hoodies.html"><img src="assets/product-oxblood.png" alt="Hoodies"><span class="cat-label">Hoodies</span></a>
+      <a class="cat-chip" href="tshirts.html"><img src="assets/tshirt-ivory.png" alt="T-Shirts"><span class="cat-label">T-Shirts</span></a>
+      <a class="cat-chip" href="pants.html"><img src="assets/pants-graphite.png" alt="Pants"><span class="cat-label">Pants</span></a>
+      <a class="cat-chip" href="shorts.html"><img src="assets/shorts-oxblood.png" alt="Shorts"><span class="cat-label">Shorts</span></a>
+      <a class="cat-chip" href="inners.html"><img src="assets/inners-nude.png" alt="Inners"><span class="cat-label">Inners</span></a>
     </div>
   </div>
 </section>
@@ -849,6 +200,8 @@
   </div>
 </div>
 
+
+
 <footer>
   <div class="wrap">
     <div class="footer-top">
@@ -863,12 +216,12 @@
       <div>
         <h5>Shop</h5>
         <ul>
-          <li><a href="#hoodies">Hoodies</a></li>
-          <li><a href="#tshirts">T-Shirts</a></li>
-          <li><a href="#pants">Pants</a></li>
-          <li><a href="#shorts">Shorts</a></li>
-          <li><a href="#inners">Inners</a></li>
-          <li><a href="#sizing">Size guide</a></li>
+          <li><a href="hoodies.html">Hoodies</a></li>
+          <li><a href="tshirts.html">T-Shirts</a></li>
+          <li><a href="pants.html">Pants</a></li>
+          <li><a href="shorts.html">Shorts</a></li>
+          <li><a href="inners.html">Inners</a></li>
+          <li><a href="index.html#sizing">Size guide</a></li>
         </ul>
       </div>
       <div>
@@ -883,8 +236,8 @@
       <div>
         <h5>Company</h5>
         <ul>
-          <li><a href="#provenance">Our story</a></li>
-          <li><a href="#fabric">The fabric</a></li>
+          <li><a href="index.html#provenance">Our story</a></li>
+          <li><a href="index.html#fabric">The fabric</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="#">Press</a></li>
         </ul>
@@ -914,339 +267,10 @@
 </aside>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-  const els = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, {threshold:0.15});
-  els.forEach(el=>io.observe(el));
-
-  // ---------- CART ----------
-  const RAZORPAY_KEY_ID = "rzp_test_3jGFYxmWHR6vWZ";
-  const CART_KEY = "kosha_cart_v1";
-  const fmt = (n) => "₹" + n.toLocaleString("en-IN");
-
-  function loadCart(){
-    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
-    catch(e){ return []; }
-  }
-  function saveCart(cart){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch(e){} }
-
-  let cart = loadCart();
-
-  function cartTotal(){ return cart.reduce((sum, item) => sum + item.price * item.qty, 0); }
-  function cartCount(){ return cart.reduce((sum, item) => sum + item.qty, 0); }
-
-  function renderCart(){
-    const itemsEl = document.getElementById('cartItems');
-    const countEl = document.getElementById('cartCount');
-    const subtotalEl = document.getElementById('cartSubtotal');
-    const checkoutBtn = document.getElementById('cartCheckout');
-
-    const count = cartCount();
-    countEl.textContent = count;
-    countEl.style.display = count > 0 ? 'flex' : 'none';
-
-    if(cart.length === 0){
-      itemsEl.innerHTML = '<div class="cart-empty">Your bag is empty. Add something you\'ll actually wear.</div>';
-      checkoutBtn.disabled = true;
-    } else {
-      itemsEl.innerHTML = cart.map(item => `
-        <div class="cart-item" data-id="${item.id}">
-          <img src="${item.img}" alt="${item.name}">
-          <div class="cart-item-info">
-            <div class="name">${item.name}</div>
-            <div class="unit-price">${fmt(item.price)} each</div>
-            <div class="qty-stepper">
-              <button type="button" data-action="dec">&minus;</button>
-              <span>${item.qty}</span>
-              <button type="button" data-action="inc">+</button>
-            </div>
-          </div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between; height:64px;">
-            <div class="cart-item-total">${fmt(item.price * item.qty)}</div>
-            <button type="button" class="cart-item-remove" data-action="remove">Remove</button>
-          </div>
-        </div>
-      `).join('');
-      checkoutBtn.disabled = false;
-    }
-    subtotalEl.textContent = fmt(cartTotal());
-    saveCart(cart);
-  }
-
-  function addToCart(product){
-    const existing = cart.find(i => i.id === product.id);
-    if(existing){ existing.qty += 1; }
-    else { cart.push({ ...product, qty: 1 }); }
-    renderCart();
-    openCart();
-  }
-
-  function openCart(){
-    document.getElementById('cartDrawer').classList.add('open');
-    document.getElementById('cartOverlay').classList.add('open');
-  }
-  function closeCart(){
-    document.getElementById('cartDrawer').classList.remove('open');
-    document.getElementById('cartOverlay').classList.remove('open');
-  }
-
-  document.getElementById('cartToggle').addEventListener('click', openCart);
-  document.getElementById('cartClose').addEventListener('click', closeCart);
-  document.getElementById('cartOverlay').addEventListener('click', closeCart);
-
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      addToCart({
-        id: btn.dataset.id,
-        name: btn.dataset.name,
-        price: parseInt(btn.dataset.price, 10),
-        img: btn.dataset.img
-      });
-      btn.classList.add('just-added');
-      const original = btn.textContent;
-      btn.textContent = 'Added ✓';
-      setTimeout(() => { btn.classList.remove('just-added'); btn.textContent = original; }, 1200);
-    });
-  });
-
-  document.getElementById('cartItems').addEventListener('click', (e) => {
-    const action = e.target.dataset.action;
-    if(!action) return;
-    const itemEl = e.target.closest('.cart-item');
-    const id = itemEl.dataset.id;
-    const item = cart.find(i => i.id === id);
-    if(!item) return;
-    if(action === 'inc'){ item.qty += 1; }
-    if(action === 'dec'){ item.qty -= 1; if(item.qty <= 0){ cart = cart.filter(i => i.id !== id); } }
-    if(action === 'remove'){ cart = cart.filter(i => i.id !== id); }
-    renderCart();
-  });
-
-  document.getElementById('cartCheckout').addEventListener('click', () => {
-    if(cart.length === 0) return;
-    const amount = cartTotal() * 100; // paise
-    const description = cart.map(i => `${i.name} x${i.qty}`).join(', ');
-    const rzp = new Razorpay({
-      key: RAZORPAY_KEY_ID,
-      amount: amount,
-      currency: "INR",
-      name: "Kosha",
-      description: description.length > 120 ? description.slice(0, 117) + '...' : description,
-      theme: { color: "#7A2430" },
-      handler: function(response){
-        alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-        cart = [];
-        renderCart();
-        closeCart();
-      },
-      modal: {
-        ondismiss: function(){}
-      }
-    });
-    rzp.open();
-  });
-
-  renderCart();
-
-  /* ---------- CATEGORY MEGA MENU ---------- */
-  const CATEGORY_DATA = {
-    hoodies: {
-      eyebrow: "01 · Hoodies",
-      title: "The Terry Hoodie",
-      desc: "420 GSM French terry, cut oversized for the cropped-not-cropped length we're known for.",
-      image: "assets/lifestyle.png",
-      href: "#hoodies",
-      ctaLabel: "Shop All Hoodies →",
-      swatches: [
-        {name:"Oxblood", price:"₹5,499", color:"#7A2430"},
-        {name:"Ivory Silk", price:"₹4,999", color:"#F6F2EA"},
-        {name:"Graphite", price:"₹5,499", color:"#15130F"},
-        {name:"Stone", price:"₹5,199", color:"#B9AF9D"}
-      ]
-    },
-    tshirts: {
-      eyebrow: "02 · T-Shirts",
-      title: "The Everyday Tee",
-      desc: "190 GSM combed cotton in a boxy, easy fit that layers under anything.",
-      image: "assets/tshirt-graphite.png",
-      href: "#tshirts",
-      ctaLabel: "Shop All T-Shirts →",
-      swatches: [
-        {name:"Ivory", price:"₹1,799", color:"#F6F2EA"},
-        {name:"Graphite", price:"₹1,799", color:"#15130F"},
-        {name:"Oxblood", price:"₹1,899", color:"#7A2430"},
-        {name:"Stone", price:"₹1,799", color:"#B9AF9D"}
-      ]
-    },
-    pants: {
-      eyebrow: "03 · Pants",
-      title: "Wide-Leg & Joggers",
-      desc: "Relaxed, considered fits built to move from desk to flight.",
-      image: "assets/pants-stone.png",
-      href: "#pants",
-      ctaLabel: "Shop All Pants →",
-      swatches: [
-        {name:"Graphite Wide-Leg", price:"₹3,299", color:"#15130F"},
-        {name:"Stone Jogger", price:"₹2,999", color:"#B9AF9D"},
-        {name:"Ivory Wide-Leg", price:"₹3,299", color:"#F6F2EA"},
-        {name:"Oxblood Jogger", price:"₹2,999", color:"#7A2430"}
-      ]
-    },
-    shorts: {
-      eyebrow: "04 · Shorts",
-      title: "Warm-Weather Shorts",
-      desc: "420 GSM terry with a 5\" inseam — the hoodie's off-duty partner.",
-      image: "assets/shorts-stone.png",
-      href: "#shorts",
-      ctaLabel: "Shop All Shorts →",
-      swatches: [
-        {name:"Oxblood", price:"₹2,199", color:"#7A2430"},
-        {name:"Stone", price:"₹2,199", color:"#B9AF9D"},
-        {name:"Graphite", price:"₹2,199", color:"#15130F"},
-        {name:"Ivory", price:"₹2,199", color:"#F6F2EA"}
-      ]
-    },
-    inners: {
-      eyebrow: "05 · Inners",
-      title: "Seamless Inners",
-      desc: "Tag-free cotton-modal basics, made to disappear under everything else.",
-      image: "assets/inners-black.png",
-      href: "#inners",
-      ctaLabel: "Shop All Inners →",
-      swatches: [
-        {name:"Nude Set", price:"₹1,499", color:"#D8B79A"},
-        {name:"Black Set", price:"₹1,499", color:"#15130F"},
-        {name:"Stone Set", price:"₹1,499", color:"#B9AF9D"},
-        {name:"Ivory Set", price:"₹1,499", color:"#F6F2EA"}
-      ]
-    }
-  };
-
-  const headerEl = document.getElementById('siteHeader');
-  const megaPanel = document.getElementById('megaPanel');
-  const megaOverlay = document.getElementById('megaOverlay');
-  const megaImage = document.getElementById('megaImage');
-  const megaEyebrow = document.getElementById('megaEyebrow');
-  const megaTitle = document.getElementById('megaTitle');
-  const megaDesc = document.getElementById('megaDesc');
-  const megaSwatches = document.getElementById('megaSwatches');
-  const megaCta = document.getElementById('megaCta');
-  const megaVisual = document.getElementById('megaVisual');
-  const catPills = Array.from(document.querySelectorAll('.cat-pill'));
-
-  function setHeaderHeight(){
-    if(headerEl){
-      document.documentElement.style.setProperty('--header-h', headerEl.offsetHeight + 'px');
-      const styleTag = document.getElementById('scrollMarginStyle') || (function(){
-        const s = document.createElement('style');
-        s.id = 'scrollMarginStyle';
-        document.head.appendChild(s);
-        return s;
-      })();
-      styleTag.textContent = '[id]{scroll-margin-top:' + (headerEl.offsetHeight + 14) + 'px;}';
-    }
-  }
-  setHeaderHeight();
-  window.addEventListener('resize', setHeaderHeight);
-  window.addEventListener('load', setHeaderHeight);
-
-  let megaOpenTimer = null, megaCloseTimer = null, activeCat = null;
-  const isMobileNav = () => window.innerWidth <= 860;
-
-  function populateMega(cat){
-    const d = CATEGORY_DATA[cat];
-    if(!d) return;
-    megaEyebrow.textContent = d.eyebrow;
-    megaTitle.textContent = d.title;
-    megaDesc.textContent = d.desc;
-    megaImage.src = d.image;
-    megaImage.alt = d.title;
-    megaCta.href = d.href;
-    megaCta.textContent = d.ctaLabel;
-    megaSwatches.innerHTML = d.swatches.map(sw =>
-      '<a class="mega-swatch-item" href="' + d.href + '">' +
-        '<span class="dot" style="background:' + sw.color + ';"></span>' +
-        '<span class="nm">' + sw.name + '</span>' +
-        '<span class="pr">' + sw.price + '</span>' +
-      '</a>'
-    ).join('');
-  }
-
-  function openMega(cat){
-    clearTimeout(megaCloseTimer);
-    activeCat = cat;
-    populateMega(cat);
-    catPills.forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
-    megaPanel.classList.add('open');
-    megaOverlay.classList.add('open');
-  }
-  function closeMega(){
-    megaPanel.classList.remove('open');
-    megaOverlay.classList.remove('open');
-    catPills.forEach(p => p.classList.remove('active'));
-    activeCat = null;
-  }
-
-  catPills.forEach(pill => {
-    const cat = pill.dataset.cat;
-    pill.addEventListener('mouseenter', () => {
-      if(isMobileNav()) return;
-      clearTimeout(megaCloseTimer);
-      clearTimeout(megaOpenTimer);
-      megaOpenTimer = setTimeout(() => openMega(cat), 70);
-    });
-    pill.addEventListener('mouseleave', () => {
-      if(isMobileNav()) return;
-      clearTimeout(megaOpenTimer);
-      megaCloseTimer = setTimeout(closeMega, 180);
-    });
-    pill.addEventListener('click', (e) => {
-      if(isMobileNav()){
-        return; // let default anchor-like navigation happen via href fallback below
-      }
-      e.preventDefault();
-      if(activeCat === cat){ closeMega(); }
-      else { openMega(cat); }
-    });
-    pill.addEventListener('focus', () => { if(!isMobileNav()) openMega(cat); });
-  });
-
-  // On mobile, tapping a pill should jump straight to the section
-  catPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      if(isMobileNav()){
-        const target = document.getElementById(pill.dataset.cat);
-        if(target){ target.scrollIntoView({behavior:'smooth'}); }
-      }
-    });
-  });
-
-  megaPanel.addEventListener('mouseenter', () => clearTimeout(megaCloseTimer));
-  megaPanel.addEventListener('mouseleave', () => {
-    megaCloseTimer = setTimeout(closeMega, 180);
-  });
-  megaOverlay.addEventListener('click', closeMega);
-  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMega(); });
-
-  // 3D tilt + sheen tracking on the mega visual image
-  if(megaVisual){
-    megaVisual.addEventListener('mousemove', (e) => {
-      const rect = megaVisual.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      const px = (x / rect.width) * 100, py = (y / rect.height) * 100;
-      megaVisual.style.setProperty('--mx', px + '%');
-      megaVisual.style.setProperty('--my', py + '%');
-      const rotY = ((x / rect.width) - 0.5) * 10;
-      const rotX = ((y / rect.height) - 0.5) * -10;
-      megaImage.style.transform = 'scale(1.06) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
-    });
-    megaVisual.addEventListener('mouseleave', () => {
-      megaImage.style.transform = 'scale(1.02) rotateX(0deg) rotateY(0deg)';
-    });
-  }
-</script>
+<script src="js/shop-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/category-page.js"></script>
+<script src="js/menu.js"></script>
 
 </body>
 </html>
